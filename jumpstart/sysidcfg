@@ -1,0 +1,15 @@
+system_locale=en_US.ISO8859-1
+timezone=US/Eastern
+timeserver=localhost
+terminal=vt100
+name_service=DNS { domain_name=somedomain.org
+                   name_server=10.20.30.40,10.20.30.50
+                   search=somedomain.org,someotherdomain.com}
+nfs4_domain=dynamic
+security_policy=NONE
+root_password=<encrypted hash for /etc/shadow>
+network_interface=e1000g0 {hostname=somesystem1
+                             ip_address=10.20.30.1
+                             netmask=255.255.255.0
+                             default_route=10.20.30.60
+                             protocol_ipv6=no}

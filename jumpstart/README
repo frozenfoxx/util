@@ -1,0 +1,10 @@
++RARPD Notes
+	-You need to have the target system's MAC address is /etc/ethers:
+		<mac address> <hostname>
+	-The client's hostname and the server's hostname must be in /etc/hosts
+		<IP> <hostname>
+	-add_install_client must be run with the -e, -s, -c, and -p options
+		-e <MAC>
+		-s <server:/path/to/install>
+		-c <server:/path/to/jumpstart/config>
+		-p <server:/path/to/jumpstart/config>

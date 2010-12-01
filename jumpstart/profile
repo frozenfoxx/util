@@ -1,0 +1,4 @@
+install_type            initial_install
+cluster                 SUNWCXall
+pool                    rpool auto auto auto mirror c2t0d0s0 c2t1d0s0
+system_type             server
