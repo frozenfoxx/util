@@ -1,0 +1,7 @@
+This is a collection of scripts primarily for system administration collected/written/used
+  over the years.  They are organized by language due to initially being a self-teaching
+  resource, though some that are more than "one-shot" scripts are organized into
+  directories for the entire collection (Solaris Zone creation for instance).
+
+Please enjoy but use wisely as I am *not* responsible for the benefits and/or
+  consequences of their use.
