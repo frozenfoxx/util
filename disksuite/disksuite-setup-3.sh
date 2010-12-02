@@ -3,7 +3,7 @@
 #################################################################
 # Name:		disksuite-setup-3.sh
 # Author:	FOXX (frozenfoxx@github.com)
-# Date:		11/08/2010
+# Date:		11/15/2008
 # Description:	This is part three of three for building Solaris
 #		Volume Manager/Disksuite software RAID groups
 #		on Solaris.
