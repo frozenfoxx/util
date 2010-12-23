@@ -1,0 +1,25 @@
+body common control
+{
+	bundlesequence => { "test" };
+}
+
+bundle agent test
+{
+	files:
+
+	# This is just a comment, below is the promise
+
+	"/home/foxx/testfile"	   # promiser
+
+	comment => "This is for keeps...", # Live comment
+	 create => "true",		   # Constraint 1
+	  perms => p("612");		   # Constraint 2, permissions octet (rw---x-w-)
+}
+
+## This is a trivial body template.  It makes parameterizing the promise
+##  body earlier tidier and reusable, just like objects in Object Oriented Programming.
+
+body perms p(x)
+{
+	mode => "$(x)";
+}

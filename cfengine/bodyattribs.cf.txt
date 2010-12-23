@@ -1,0 +1,20 @@
+***********************************************************
+ Promises 
+***********************************************************
+Bundle test in the context of agent
+
+   ARGS:
+
+   {
+   }
+
+
+
+
+All Bodies
+
+control body for type common(no parameters)
+   {
+   bundlesequence =>  {'test'} if sub-body context any
+   }
+
