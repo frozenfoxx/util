@@ -1,0 +1,32 @@
+#########################
+# Server - cf-monitord.cf
+#########################
+
+## Name:	cf-monitord.cf
+## Author:	FOXX (frozenfoxx@github.com)
+## Date:	12/22/2009
+## Description:	this example allows control over the cf-monitord
+##		process from within CFengine.
+
+#################################
+body monitor control
+{
+	forgetrate =>		"0.7";
+	histograms =>		"true";
+	monitorfacility =>	"LOG_DAEMON";
+}
+
+#################################
+bundle agent monitor
+{
+# Ensure monitor is running
+	processes:
+	  "cf-monitord"
+	  handle =>		"check_monitor_running",
+	  comment =>		"Verify cf-monitord is running and restart if not",
+	  restart_class =>	"start_cfmonitord";
+
+	commands:
+	  start_cfmonitord::
+	    "${g.workdir}/bin/cf-monitord";
+}
