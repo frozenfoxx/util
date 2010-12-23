@@ -1,0 +1,67 @@
+########################
+# Server - cf-serverd.cf
+########################
+
+## Name:	cf-serverd.cf
+## Author:	FOXX (frozenfoxx@github.com)
+## Date:	12/22/2009
+## Description:	this example allows control over the cf-serverd
+##		process from within CFengine.
+ 
+##############################
+body server control {
+
+# Disable usage of DNS verification for a particular range
+	#skipverify =>		{ "10.1.0.*" };
+
+	allowconnects =>	{ "10.1.0.0/24" };
+	allowallconnects =>	{ "10.1.0.0/24" };
+	maxconnections =>	"5";
+	logallconnections =>	"true";
+
+# Generally do not enable "trustkeysfrom."  All key exchange should be by hand
+	#trustkeysfrom =>	{ "10.1.0.0/24" };
+
+# Useful if we use multiple NICs, unnecessary at the moment
+	#bindtointerface => "192.168.0.1";
+
+	cfruncommand => "${g.workdir}/bin/cf-agent || /var/cf-failsafe/bin/cf-failsafe.sh";
+	allowusers => { "root" };
+}
+
+##############################
+bundle agent server
+{
+# Ensure server is running.
+	processes:
+	  "cf-serverd"
+	  restart_class => "start_cfserverd";
+
+	commands:
+	  start_cfserverd::
+	    "${g.workdir}/bin/cf-serverd";
+}
+ 
+##############################
+bundle server access_rules
+{
+	access:
+	  "${g.masterfiles}/client_inputs"
+	  admit =>	{ "10.1.0.0/24" };
+
+	  "${g.masterfiles}/client_modules"
+	  admit =>	{ "10.1.0.0/24" };
+
+# All policy hosts to 'push'.
+	  "${g.workdir}/bin/cf-agent"
+	  admit => { "${g.phost}" };
+}
+
+##############################
+#body runagent control
+#{
+#	hosts => {
+#	  "10.1.0.71"
+#	};
+#	output_to_file =>	"true";
+#}
