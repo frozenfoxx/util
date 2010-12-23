@@ -1,0 +1,13 @@
+body common control
+{
+  bundlesequence => { "test" };
+}
+
+bundle agent test
+{
+  reports:
+    cfengine_3::
+      "Hello World";
+    ipv4_172_31_255_71::
+      "We haz an ip";
+}
