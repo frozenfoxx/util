@@ -1,0 +1,37 @@
+######################
+# Server - cfbackup.cf
+######################
+
+## Author:	FOXX (frozenfoxx@github.com)
+## Date:	12/29/2009
+## Description:	this example provides a method
+##		for backing up CFengine's
+##		configuration.
+
+bundle agent cfbackup
+{
+vars:
+	"failsafe" string =>	"/var/cf-failsafe";
+
+files:
+	"${failsafe}/bin/cf-agent"
+	perms =>	m_u_g("0700","root","root"),
+	copy_from =>	mycopy("${g.workdir}/bin/cf-agent", "localhost");
+
+	"${failsafe}/inputs/cf-failsafe.sh"
+	perms =>	m_u_g("0700","root","root"),
+	copy_from =>	mycopy("${g.workdir}/inputs/cf-failsafe.sh", "localhost");
+
+	"${failsafe}/ppkeys"
+	perms =>	m_u_g("0600","root","root"),
+	copy_from =>	mycopy("${g.workdir}/ppkeys", "localhost"),
+	depth_search =>	recurse("inf");
+
+	"${failsafe}/inputs/failsafe.cf"
+	perms =>	m_u_g("0600","root","root"),
+	copy_from =>	mycopy("${g.workdir}/inputs/failsafe.cf", "localhost");
+
+	"${failsafe}/inputs/update.cf"
+	perms =>	m_u_g("0700","root","root"),
+	copy_from =>	mycopy("${g.workdir}/inputs/update.cf", "localhost");
+}
