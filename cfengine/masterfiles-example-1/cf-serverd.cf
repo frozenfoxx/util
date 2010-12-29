@@ -4,7 +4,7 @@
 
 ## Name:	cf-serverd.cf
 ## Author:	FOXX (frozenfoxx@github.com)
-## Date:	12/22/2009
+## Date:	12/22/2010
 ## Description:	this example allows control over the cf-serverd
 ##		process from within CFengine.
  
