@@ -1,0 +1,42 @@
+#######################
+# Server - resolv.cf 
+#######################
+
+## Name:	resolv.cf
+## Author:      FOXX (frozenfoxx@github.com)
+## Date:        12/29/2010
+## Description: this example configures the DNS resolver.  This modifies
+##		the file on the fly and then adds the domain line based
+##		on class.
+
+bundle agent resolv
+{
+        files:
+          "$(sys.resolv)"
+          comment =>            "Add lines to the resolver configuration",
+          create =>             "true",
+          edit_line =>          resolver,
+          edit_defaults =>      std_defs;
+}
+
+############################################
+bundle edit_line resolver
+{
+#Delete any old name servers no longer used
+        delete_lines:
+
+#Insert new lines
+        insert_lines:
+          "nameserver   10.1.0.100" location => start;
+          "nameserver   10.1.0.110";
+          "search tier1domain.net tier2domain.net tier3domain.net";
+
+          tier1::
+            "domain     tier1domain.net";
+
+          tier2::
+            "domain     tier2domain.net";
+
+          tier3::
+            "domain     tier3domain.net";
+}
