@@ -1,0 +1,36 @@
+######################
+# Client - cfbackup.cf
+######################
+
+## Name:	cfbackup.cf
+## Author:	FOXX (frozenfoxx@github.com)
+## Date:	12/30/2010
+## Description:	this example will backup all binaries and failsafes.
+
+bundle agent cfbackup
+{
+vars:
+        "failsafe" string =>    "/var/cf-failsafe";
+
+files:
+        "${failsafe}/bin/cf-agent"
+        perms =>        m_u_g("0700","root","root"),
+        copy_from =>    mycopy("${g.workdir}/bin/cf-agent", "localhost");
+
+        "${failsafe}/modules/cf-failsafe.sh"
+        perms =>        m_u_g("0700","root","root"),
+        copy_from =>    mycopy("${g.workdir}/modules/cf-failsafe.sh", "localhost");
+
+        "${failsafe}/ppkeys"
+        perms =>        m_u_g("0600","root","root"),
+        copy_from =>    mycopy("${g.workdir}/ppkeys", "localhost"),
+        depth_search => recurse("inf");
+
+        "${failsafe}/inputs/failsafe.cf"
+        perms =>        m_u_g("0600","root","root"),
+        copy_from =>    mycopy("${g.workdir}/inputs/failsafe.cf", "localhost");
+
+        "${failsafe}/inputs/update.cf"
+        perms =>        m_u_g("0700","root","root"),
+        copy_from =>    mycopy("${g.workdir}/inputs/update.cf", "localhost");
+}
