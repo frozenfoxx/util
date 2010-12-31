@@ -1,0 +1,33 @@
+########################
+# Client - cf-execd.cf
+########################
+
+## Name:	cf-execd.cf
+## Author:	FOXX (frozenfoxx@github.com)
+## Date:	12/30/2010
+## Description:	this example allows control over the cf-execd
+
+#################################
+body executor control
+{
+        splaytime => 		"1";
+        mailto =>		"frozenfoxx@somedomain.net";
+        smtpserver =>		"mailserver.somedomain.net";
+        mailmaxlines =>		"50";
+        schedule =>		{ "Min15_20", "Min45_50" };
+        executorfacility =>	"LOG_DAEMON";
+}
+
+#################################
+bundle agent executor
+{
+        processes:
+          "cf-execd"
+          handle =>             "check_executor_running",
+          comment =>            "Verify cf-execd is running and restart if not",
+          restart_class =>	"start_cfexecd";
+
+        commands:
+          start_cfexecd::
+            "${g.workdir}/bin/cf-execd";
+}
