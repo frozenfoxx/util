@@ -1,0 +1,45 @@
+########################
+# Client - library.cf
+########################
+
+## Name:	library.cf
+## Author:	FOXX (frozenfoxx@github.com)
+## Date:	12/30/2010
+## Description:	this file is a set of user-defined methods.
+
+#########################################################
+body perms m_u_g(m,u,g)
+{
+        mode =>         "$(m)";
+        owners =>       { "$(u)" };
+        groups =>       { "$(g)" };
+}
+
+#########################################################
+body depth_search avoid_inputs_recurse(d)
+{
+        depth =>        "$(d)";
+        exclude_dirs => { "/var/cfengine/inputs", "/var/cfengine/state" };
+}
+
+#########################################################
+body copy_from remote_copy(sourcedir,sourceserver)
+{
+        source =>       "$(sourcedir)";
+        servers =>      { "$(sourceserver)" };
+        copy_backup =>  "true";
+        purge =>        "true";
+        trustkey =>     "true";
+        compare =>      "digest";
+        encrypt =>      "true";
+        verify =>       "true";
+}
+
+#########################################################
+body copy_from mycopy(from,server)
+{
+        source =>       "$(from)";
+        servers =>      { "${server}" };
+        compare =>      "digest";
+        purge =>        "true";
+}
