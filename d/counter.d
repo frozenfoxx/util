@@ -1,3 +1,4 @@
+#!/usr/sbin/dtrace -s
 /*
  * Name:		counter.d
  * Author:		FOXX (frozenfoxx@github.com)
