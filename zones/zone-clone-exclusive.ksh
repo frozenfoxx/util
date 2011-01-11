@@ -1,6 +1,6 @@
 #!/usr/bin/ksh
 ################################################################
-# Title:        zone-clone.ksh
+# Title:        zone-clone-exclusive.ksh
 # Date:         08/24/2010
 # Author(s):    FOXX (frozenfoxx@github.com), Gerard Charleza
 # Description:  This creates a new zone based upon another
