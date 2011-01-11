@@ -1,0 +1,10 @@
+## Name:	poolcfg-options
+## Author:      FOXX (frozenfoxx@github.com)
+## Date:        06/30/2008
+## Description: pool configuration script for the Fair System Scheduler (FSS).
+##		Load script with pooladm -x; pooladm -s; poolcfg -f poolcfg-options; pooladm -c
+
+create pool zone1-pool ( string pool.scheduler = "FSS" )
+create pool zone2-pool ( string pool.scheduler = "FSS" )
+create pool zone3-pool ( string pool.scheduler = "FSS" )
+create pool zone4-pool ( string pool.scheduler = "FSS" )
