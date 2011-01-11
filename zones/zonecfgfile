@@ -1,0 +1,12 @@
+create -b
+set zonepath=/zones_pool/zone1
+set autoboot=true
+set ip-type=shared
+add inherit-pkg-dir
+set dir=/admin_tools
+end
+add net
+set address=10.1.100.1
+set physical=bge0
+end
+set cpu-shares=10
