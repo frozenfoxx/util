@@ -1,10 +1,19 @@
-## Name:	poolcfg-options
-## Author:      FOXX (frozenfoxx@github.com)
-## Date:        06/30/2008
-## Description: pool configuration script for the Fair System Scheduler (FSS).
-##		Load script with pooladm -x; pooladm -s; poolcfg -f poolcfg-options; pooladm -c
+#################################################################
+# Name:		poolcfg-options
+# Author:	FOXX (frozenfoxx@github.com)
+# Date:		01/01/2009
+# Description:	This is a configuration file for doing Fair
+#		System Scheduler (FSS) setup on Solaris 10+
+#		systems.  It is not a "script" in the traditional
+#		sense as it is not individually launched but is
+#		used in conjunction with the "pooladm" command
+#		to automate setup of FSS pools.
+#################################################################
 
-create pool zone1-pool ( string pool.scheduler = "FSS" )
-create pool zone2-pool ( string pool.scheduler = "FSS" )
-create pool zone3-pool ( string pool.scheduler = "FSS" )
-create pool zone4-pool ( string pool.scheduler = "FSS" )
+# EXECUTION:
+# Load script with pooladm -x; pooladm -s; poolcfg -f poolcfg-options; pooladm -c
+
+create pool work1-pool ( string pool.scheduler = "FSS" )
+create pool work2-pool ( string pool.scheduler = "FSS" )
+create pool work3-pool ( string pool.scheduler = "FSS" )
+create pool work4-pool
