@@ -1,0 +1,10 @@
+/var/log/hubot/*.log {
+	daily
+	missingok
+	rotate 31
+	compress
+	delaycompress
+	notifempty
+	create 644 hubot hubot
+	sharedscripts
+}
