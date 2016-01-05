@@ -9,14 +9,14 @@
 
 #VARIABLES
 FILESIZE='1024m'
-TARGETSERVER='cris24.cybertip.org'
+TARGETSERVER='server.company.com'
 
 #Create file
 echo "Creating the garbage.txt of $FILESIZE"
 mkfile $FILESIZE garbage.txt
 
 echo "Time started:  `date +%H:%M:%S`"              
-scp garbage.txt tcarr@$TARGETSERVER:/export/home/tcarr/
+scp garbage.txt foxx@$TARGETSERVER:/export/home/foxx/
 echo "Time finished:  `date +%H:%M:%S`"
 
 #Cleanup
