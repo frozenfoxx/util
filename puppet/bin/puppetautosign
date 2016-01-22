@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+csr=$(< /dev/stdin)
+certname=$1
+
+if [[ $certname =~ ^prefix-[a-z0-9]+\.some\.fqdn\.net$ ]] ; then
+  exit 0
+# FIX:  some systems (OS X) sometimes run Puppet with just the hostname
+elif [[ $certname =~ ^prefix-[a-z0-9]+.*$ ]] ; then
+  exit 0
+else
+  # Not recognized
+  exit 1
+fi
