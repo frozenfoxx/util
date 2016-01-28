@@ -1,11 +1,7 @@
-# Title:	ZoneConfig.txt
-# Date:		06/20/2008
-# Author(s):	FOXX (frozenfoxx@github.com)
-# Description:	Various notes and examples for Solaris Zone configuration.
+# Zone Configuration
+This is a quick example of how to bootstrap Solaris Zones.
 
---------------------------------
-Solaris Zone Configuration Notes
---------------------------------
+# Example Layout
 + zone1
   - FSS pool = zone1-pool
   - CPU Shares = 10
@@ -20,13 +16,9 @@ Solaris Zone Configuration Notes
   - CPU Shares = 20, configured at boot time
   - Command to configure:  prctl -n zone.cpu-shares -v 20 -r -i -zone global
 
----------------------------------------
-EXAMPLE COMMANDS TO COMPLETE A NEW ZONE:
----------------------------------------
-
--------------------------
-CREATE/INSTALL A NEW ZONE
--------------------------
+# Example
+## Create/Install a New Zone
+```
 global:/export/home/root # zonecfg -z zone1   
 zone1: No such zone configured
 Use 'create' to begin configuring a new zone.
@@ -67,15 +59,18 @@ Initialized <1337> packages on zone.
 Zone <zone1> is initialized.
 The file </zones_pool/zone1/root/var/sadm/system/logs/install_log> contains a log of the zone installation.
 global:/zones_pool/ # zoneadm -z zone1 boot
-
---------------------------------------------
-CREATE POOL FOR FAIR SYSTEM SCHEDULING (FSS)
---------------------------------------------
-1) Manually add pool configuration to poolcfg-options script
+```
+## Create Pool for Fair System Scheduling (FSS)
+1. Manually add pool configuration to poolcfg-options script
+```
 	"create pool zone1-pool ( string pool.scheduler = "FSS" )"
-2) Run the following commands using that script
+```
+2. Run the following commands using that script
+```
 	pooladm -x; pooladm -s; poolcfg -f poolcfg-options; pooladm -c
-3) Add pool to zone configuration
+```
+3. Add pool to zone configuration
+```
 	global:/zones_pool # zonecfg -z zone1
 	zonecfg:zone1> set pool=zone1-pool
 	zonecfg:zone1> add rctl
@@ -84,12 +79,14 @@ CREATE POOL FOR FAIR SYSTEM SCHEDULING (FSS)
 	zonecfg:zone1:rctl> end
 	zonecfg:zone1> verify
 	zonecfg:zone1> exit
-4) Verify pool configuration
+```
+4. Verify pool configuration
+```
 	global:/zones_pool # prctl -n zone.cpu-shares -i zone zone1
-
---------------------
-VERIFY ZONE AND POOL
---------------------
+```
+## Verify Zone and Pool
+```
 global:/export/home/root # zoneadm -z zone1 halt
 global:/export/home/root # zoneadm -z zone1 boot
 global:/export/home/root # zoneadm list -cv
+```
