@@ -75,7 +75,7 @@ cat > ${DIR}/${NAM}/root/etc/sysidcfg<<-END
         name_service=NONE
         network_interface=PRIMARY { hostname=${NAM} }
         security_policy=NONE
-        root_password=CLr.m1qoVn3mg
+        root_password=xxxxxxxxxx
         nfs4_domain=dynamic
         service_profile=limited_net
 END
