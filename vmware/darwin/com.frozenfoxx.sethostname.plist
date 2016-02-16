@@ -11,7 +11,7 @@
 	</dict>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/var/root/setHostname.sh</string>
+		<string>/var/root/bin/setHostname.sh</string>
 	</array>
 	<key>RunAtLoad</key>
 		<true/>
