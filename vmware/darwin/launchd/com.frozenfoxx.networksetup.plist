@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>com.frozenfoxx.sethostname</string>
+	<string>com.frozenfoxx.networksetup</string>
 	<key>KeepAlive</key>
 	<dict>
 		<key>SuccessfulExit</key>
