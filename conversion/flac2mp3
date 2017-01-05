@@ -1,0 +1,12 @@
+#!/bin/bash
+#####################################################
+# Name:  flac2mp3
+# Date:  01/05/2016
+# Author:  FOXX (frozenfoxx@github.com)
+# Description:  this will convert all FLAC files in
+#   the current directory to MP3 using FFMPEG.
+#####################################################
+
+for a in ./*.flac; do
+  ffmpeg -i "$a" -qscale:a 0 "${a[@]/%flac/mp3}"
+done
