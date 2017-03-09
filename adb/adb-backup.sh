@@ -5,7 +5,7 @@ set -e
 PACKAGE=$1
 
 if [ -z "$PACKAGE" ]; then
-	echo no package specified
+	echo '[-] No package specified'
 	exit
 fi
 
