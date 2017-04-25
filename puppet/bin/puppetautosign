@@ -2,6 +2,7 @@
 
 csr=$(< /dev/stdin)
 certname=$1
+fqdn=<%= @fqdnformat %>
 
 if [[ $certname =~ ^prefix-[a-z0-9]+\.some\.fqdn\.net$ ]] ; then
   exit 0
