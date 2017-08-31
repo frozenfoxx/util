@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Variables
+
+CSR=$(< /dev/stdin)
+CERTNAME=$1
+PREFIX=''
+DOMAIN='some.fqdn'
+
+# Logic
+
+if [[ ${CERTNAME} =~ ^${PREFIX}[a-z0-9]+${DOMAIN}$ ]] ; then
+  exit 0
+# FIX:  OS X sometimes runs Puppet with just the hostname
+elif [[ ${CERTNAME} =~ ^${PREFIX}[a-z0-9]+.*$ ]] ; then
+  exit 0
+else
+  # Not recognized
+  exit 1
+fi
