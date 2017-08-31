@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#####################################################
+# Name:        puppet-autosign
+# Author(s):   FrozenFOXX
+# Description: simple autosigner for puppetserver.
+#####################################################
 
 # Variables
 
