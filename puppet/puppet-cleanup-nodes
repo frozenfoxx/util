@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+################################################
+# Name:		puppet-cleanup-nodes
+# Author:	FrozenFOXX
+# Description:	this command cleans facts, node,
+#   and reports files from prefixed nodes.
+################################################
+
+# Variables
+
+REPORTSPATH='/opt/puppetlabs/server/data/puppetserver/reports'
+FACTSPATH='/opt/puppetlabs/server/data/puppetserver/yaml/facts'
+NODESPATH='/opt/puppetlabs/server/data/puppetserver/yaml/node'
+PREFIX=''
+
+# Logic
+
+echo "[+] Cleaning reports in ${REPORTSPATH}..."
+for i in $(find ${REPORTSPATH} -mindepth 1 -type d -name "${PREFIX}*"); do
+  rm -rf ${i}
+done
+
+echo "[+] Cleaning facts in ${FACTSPATH}..."
+for i in $(find ${FACTSPATH} -type f -name "${PREFIX}*"); do
+  rm ${i}
+done
+
+echo "[+] Cleaning facts in ${NODESPATH}..."
+for i in $(find ${NODESPATH} -type f -name "${PREFIX}*"); do
+  rm ${i}
+done
