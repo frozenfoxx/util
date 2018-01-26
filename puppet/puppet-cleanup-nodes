@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 ################################################
-# Name:		puppet-cleanup-nodes
 # Author:	FrozenFOXX
 # Description:	this command cleans facts, node,
 #   and reports files from prefixed nodes.
