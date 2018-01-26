@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #####################################################
-# Name:        puppet-reap
 # Author(s):   FrozenFOXX
 # Description: cleans up old certificate files for
 #   dead nodes and reinventories.
