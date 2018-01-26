@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #####################################################
-# Name:        puppet-autosign
 # Author(s):   FrozenFOXX
 # Description: simple autosigner for puppetserver.
 #####################################################
@@ -16,7 +15,7 @@ DOMAIN='some.fqdn'
 
 if [[ ${CERTNAME} =~ ^${PREFIX}[a-z0-9]+${DOMAIN}$ ]] ; then
   exit 0
-# FIX:  OS X sometimes runs Puppet with just the hostname
+# FIX: sometimes an OS runs Puppet with just the hostname
 elif [[ ${CERTNAME} =~ ^${PREFIX}[a-z0-9]+.*$ ]] ; then
   exit 0
 else
