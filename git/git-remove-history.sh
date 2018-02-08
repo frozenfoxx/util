@@ -13,12 +13,12 @@
 set -o errexit
  
 if [ $# -eq 0 ]; then
-    exit 0are still
+    exit 0
 fi
  
 # make sure we're at the root of git repo
 if [ ! -d .git ]; then
-    echo "Error: must run this script from the root of a git repository"
+    echo "[!] Error: must run this script from the root of a git repository"
     exit 1
 fi
  
