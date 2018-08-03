@@ -54,7 +54,7 @@ dscl . -create /Users/${USERNAME} UserShell ${SHELL}
 dscl . -create /Users/${USERNAME} RealName "${USERNAME}"
 dscl . -create /Users/${USERNAME} UniqueID "${UID}"
 dscl . -create /Users/${USERNAME} PrimaryGroupID ${PRIMARYGID}
-dscl . -create /Users/${USERNAME}t NFSHomeDirectory /Users/${USERNAME}
+dscl . -create /Users/${USERNAME} NFSHomeDirectory /Users/${USERNAME}
 dscl . -passwd /Users/${USERNAME} ${PASSWORD}
 mkdir -p /Users/${USERNAME}/.ssh
 chmod 700 /Users/${USERNAME}/.ssh/
