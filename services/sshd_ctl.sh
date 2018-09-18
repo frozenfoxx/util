@@ -23,13 +23,13 @@ fi
 enable()
 {
   echo "[+] Enabling sshd..."
-  ${START_CMD}
+  eval ${START_CMD}
 }
 
 disable()
 {
   echo "[+] Disabling sshd..."
-  ${STOP_CMD}
+  eval ${STOP_CMD}
 }
 
 status()
