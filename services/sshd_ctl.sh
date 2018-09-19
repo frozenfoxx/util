@@ -44,7 +44,7 @@ status()
 
 usage()
 {
-  echo "[+] Usage: [Environment Variables] sshd_ctl.sh [start|status|stop]"
+  echo "[+] Usage: sshd_ctl.sh [start|status|stop]"
 }
 
 # Logic
