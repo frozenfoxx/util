@@ -6,7 +6,7 @@
 PLATFORM=$(uname -s)
 HOSTNAME=$(hostname)
 BREW_SCRIPT=${BREW_SCRIPT:-'https://raw.githubusercontent.com/Homebrew/install/master/install'}
-LOG_PATH=${LOG_PATH:-'/var/root/log'}
+LOG_PATH=${LOG_PATH:-"~/log"}
 STD_LOG='brew_hostname.log'
 STD_LOG_ARG=">>${LOG_PATH}/${STD_LOG}"
 
