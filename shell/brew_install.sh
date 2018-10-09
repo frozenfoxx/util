@@ -3,6 +3,7 @@
 # Install Homebrew
 
 # Variables
+PLATFORM=$(uname -s)
 HOSTNAME=$(hostname)
 BREW_SCRIPT=${BREW_SCRIPT:-'https://raw.githubusercontent.com/Homebrew/install/master/install'}
 LOG_PATH=${LOG_PATH:-'/var/root/log'}
