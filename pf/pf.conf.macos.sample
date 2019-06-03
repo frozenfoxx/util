@@ -1,0 +1,48 @@
+# This file includes a sample MacOS packetfilter policy
+
+# Interface rules
+set skip on lo0
+set skip on gif0
+set skip on stf0
+set block-policy drop
+
+# com.apple anchor point
+scrub-anchor "com.apple/*"
+nat-anchor "com.apple/*"
+rdr-anchor "com.apple/*"
+dummynet-anchor "com.apple/*"
+anchor "com.apple/*"
+load anchor "com.apple" from "/etc/pf.anchors/com.apple"
+
+# Default ingress/egress
+pass in all
+pass out all
+
+# Macros
+#   These can be used to set up ranges of ports, individual ports, and networks
+cifsports = "{ 137:139, 445 }"
+nfsports  = "{ 111, 797, 1110, 2049, 4046 }"
+blockhosts = "{ 192.168.4.0/24 }"
+
+# SSH
+#   This will allow SSH from everyone but the $blockhosts
+block in quick proto tcp from $blockhosts to self port 22
+block out quick proto tcp from self to $blockhosts port 22
+pass in quick proto tcp from any to self port 22
+
+# Mounts
+#   This shows how you can use macros to simplify allowing known protocols in
+pass out quick proto { tcp, udp } from self to any port $cifsports
+pass out quick proto { tcp, udp } from self to any port $nfsports
+
+# High Order
+#   You can also block known high order ports relatively easily
+block in quick proto { tcp, udp } from $blockhosts to self port >= 1024
+pass in quick proto { tcp, udp } from self to self port >=1024
+
+# Ping
+#   This uses a different protocol entirely and allows all hosts to use it
+pass in quick proto icmp all
+
+# Default drop everything
+block quick from any to any
