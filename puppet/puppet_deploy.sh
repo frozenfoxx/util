@@ -127,7 +127,7 @@ EOF
 ## Display usage
 usage()
 {
-  echo "Usage: puppet_deploy.sh [-h]"
+  echo "Usage: [Environment Variables] puppet_deploy.sh [options]"
   echo "  Environment Variables:"
   echo "    DISTRO                Linux distro to serve (default: 'ubuntu')"
   echo "    LOG_PATH              base directory for logging if enabled (default: \"/root/log\")"
