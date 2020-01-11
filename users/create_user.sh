@@ -12,11 +12,15 @@ USERNAME=${USERNAME:-''}
 create_user()
 {
   useradd -m -d /home/${USERNAME} -s /bin/bash ${USERNAME}
-  echo -e "${PASSWORD}\n${PASSWORD}" | passwd ${USERNAME}
   usermod -aG sudo ${USERNAME}
   mkdir -p /home/${USERNAME}/.ssh
   chmod 700 /home/${USERNAME}
   chown ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh
+
+  # Check if a password was supplied
+  if [[ -n ${PASSWORD} ]]; then
+    echo -e "${PASSWORD}\n${PASSWORD}" | passwd ${USERNAME}
+  fi
 
   # Check if an authorized_keys file has been supplied
   if [[ -n ${AUTHKEYS} ]]; then
@@ -38,13 +42,13 @@ usage()
   echo "Usage: [Environment Variables] create_user.sh [options]"
   echo "  Environment Variables:"
   echo "    AUTHKEYS               set the contents of a [user home]/.ssh/authorized_keys  (note: must be base64 encoded)"
-  echo "    USERNAME               set the username (default: admin)"
+  echo "    USERNAME               set the name for the user"
   echo "    PASSWORD               set a password for the user"
   echo "    SHELL                  set a shell (default: /bin/bash)"
   echo "  Options:"
   echo "    -h | --help            display this usage information"
   echo "    --authkeys             set the contents of a [user home]/.ssh/authorized_keys (override environment variable if present, base64 encoded)"
-  echo "    --username             set the username (override environment variable if present)"
+  echo "    --username             set the name for the user (override environment variable if present)"
   echo "    --password             set a password for the user (override environment variable if present)"
   echo "    --shell                set a shell (override environment variable if present)"
 }
