@@ -44,7 +44,7 @@ make_cert_dir()
 ## Display usage information
 usage()
 {
-  echo "Usage: [Environment Variables] generate_ssl_cert.sh [options]"
+  echo "Usage: [Environment Variables] generate_ssl_cert.ash [options]"
   echo "  Environment Variables:"
   echo "    FQDN                fully qualified domain name of the server (default: example.churchoffoxx.net)"
 }
