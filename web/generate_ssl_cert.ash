@@ -46,6 +46,9 @@ usage()
 {
   echo "Usage: [Environment Variables] generate_ssl_cert.ash [options]"
   echo "  Environment Variables:"
+  echo "    BITS                bits for the certificate (default: '2048')"
+  echo "    CERT_DIR            directory to output to (default: '/etc/ssl/certs')"
+  echo "    DAYS                days the cert is valid for (default: '365')"
   echo "    FQDN                fully qualified domain name of the server (default: example.churchoffoxx.net)"
 }
 
