@@ -18,7 +18,6 @@ if [ "$OSX_VERS" -ge 15 ]; then
     PROD=$(softwareupdate -l | grep "\*.*Label: Command Line Tools" | tail -n 1 | awk -F"*" '{print $2}' | sed -e 's/^.*Label:.*Command/Command/' | tr -d '\n')
     # install it
     softwareupdate -i "$PROD" --verbose
-    rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 else
     echo "This version is no longer supported via this script, please install manually and update"
     exit 1
