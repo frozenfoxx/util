@@ -854,8 +854,8 @@
       "h": 4,
       "layers": {
         "0": {
-          "key": "#:Layer[1]",
-          "label": "ƒ1"
+          "key": "LGUI",
+          "label": "LGUI"
         }
       }
     },
