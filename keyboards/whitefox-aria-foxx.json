@@ -19,8 +19,8 @@
       "h": 4,
       "layers": {
         "0": {
-          "key": "ESC",
-          "label": "ESC"
+          "key": "`",
+          "label": "`"
         }
       }
     },
@@ -249,8 +249,8 @@
       "h": 4,
       "layers": {
         "0": {
-          "key": "`",
-          "label": "`"
+          "key": "ESC",
+          "label": "ESC"
         }
       }
     },
@@ -974,7 +974,7 @@
   "defines": [],
   "leds": [],
   "custom": {
-    "0": "\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n# Macro 'New Macro'\nU\"LSHIFT\" + U\"FUNCTION1\" + U\"PAGEUP\" : U\"NEXT LAYER\";\n# Macro 'New Macro'\nU\"LSHIFT\" + U\"FUNCTION1\" + U\"PAGEDOWN\" : U\"PREV LAYER\";\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n"
+    "0": "\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n# Macro 'New Macro'\nU\"LSHIFT\" + U\"FUNCTION1\" + U\"PAGEUP\" : U\"NEXT LAYER\";\n# Macro 'New Macro'\nU\"LSHIFT\" + U\"FUNCTION1\" + U\"PAGEDOWN\" : U\"PREV LAYER\";\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n# Macro 'New Macro'\nU\"LSHIFT\" + U\"FUNCTION1\" + U\"PAGEUP\" : U\"NEXT LAYER\";\n# Macro 'New Macro'\nU\"LSHIFT\" + U\"FUNCTION1\" + U\"PAGEDOWN\" : U\"PREV LAYER\";\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n"
   },
   "macros": {
     "0": [
