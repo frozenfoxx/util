@@ -458,10 +458,6 @@
         "0": {
           "key": "DELETE",
           "label": "DEL"
-        },
-        "1": {
-          "key": "#:U\"Mute\" + CONS\"Mute\"",
-          "label": "MUT"
         }
       }
     },
@@ -858,8 +854,8 @@
       "h": 4,
       "layers": {
         "0": {
-          "key": "LGUI",
-          "label": "LGUI"
+          "key": "#:Layer[1]",
+          "label": "ƒ1"
         }
       }
     },
@@ -974,41 +970,10 @@
   "defines": [],
   "leds": [],
   "custom": {
-    "0": "\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n# Macro 'New Macro'\nU\"LSHIFT\" + U\"FUNCTION1\" + U\"PAGEUP\" : U\"NEXT LAYER\";\n# Macro 'New Macro'\nU\"LSHIFT\" + U\"FUNCTION1\" + U\"PAGEDOWN\" : U\"PREV LAYER\";\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n"
+    "1": "\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n"
   },
   "macros": {
-    "0": [
-      {
-        "name": "New Macro",
-        "trigger": [
-          [
-            "LSHIFT",
-            "#:Layer[1]",
-            "PAGEUP"
-          ]
-        ],
-        "output": [
-          [
-            "NEXT LAYER"
-          ]
-        ]
-      },
-      {
-        "name": "New Macro",
-        "trigger": [
-          [
-            "LSHIFT",
-            "#:Layer[1]",
-            "PAGEDOWN"
-          ]
-        ],
-        "output": [
-          [
-            "PREV LAYER"
-          ]
-        ]
-      }
-    ]
+    "1": []
   },
   "canned": {}
 }
