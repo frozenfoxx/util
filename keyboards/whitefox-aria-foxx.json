@@ -1,15 +1,4 @@
 {
-  "header": {
-    "Name": "WhiteFox",
-    "Variant": "aria",
-    "Layout": "AriaBlank",
-    "Base": "AriaBase",
-    "Version": "0.2",
-    "Author": "HaaTa (Jacob Alexander) 2015",
-    "KLL": "0.3c",
-    "Date": "2016-05-30",
-    "Generator": "KIICONF 0.2"
-  },
   "matrix": [
     {
       "code": "0x00",
@@ -19,14 +8,15 @@
       "h": 4,
       "layers": {
         "0": {
-          "key": "ESC",
-          "label": "ESC"
-        },
-        "1": {
           "key": "`",
           "label": "`"
+        },
+        "1": {
+          "key": "ESC",
+          "label": "ESC"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x01",
@@ -43,7 +33,8 @@
           "key": "F1",
           "label": "F1"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x02",
@@ -60,7 +51,8 @@
           "key": "F2",
           "label": "F2"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x03",
@@ -77,7 +69,8 @@
           "key": "F3",
           "label": "F3"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x04",
@@ -94,7 +87,8 @@
           "key": "F4",
           "label": "F4"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x05",
@@ -111,7 +105,8 @@
           "key": "F5",
           "label": "F5"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x06",
@@ -128,7 +123,8 @@
           "key": "F6",
           "label": "F6"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x07",
@@ -145,7 +141,8 @@
           "key": "F7",
           "label": "F7"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x08",
@@ -162,7 +159,8 @@
           "key": "F8",
           "label": "F8"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x09",
@@ -179,7 +177,8 @@
           "key": "F9",
           "label": "F9"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x0A",
@@ -196,7 +195,8 @@
           "key": "F10",
           "label": "F10"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x0B",
@@ -213,7 +213,8 @@
           "key": "F11",
           "label": "F11"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x0C",
@@ -230,7 +231,8 @@
           "key": "F12",
           "label": "F12"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x0E",
@@ -242,8 +244,13 @@
         "0": {
           "key": "BACKSPACE",
           "label": "BKSP"
+        },
+        "1": {
+          "key": "DELETE",
+          "label": "DEL"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x0F",
@@ -256,7 +263,8 @@
           "key": "HOME",
           "label": "HOME"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x10",
@@ -269,7 +277,8 @@
           "key": "TAB",
           "label": "TAB"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x11",
@@ -282,7 +291,8 @@
           "key": "Q",
           "label": "Q"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x12",
@@ -295,7 +305,8 @@
           "key": "W",
           "label": "W"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x13",
@@ -308,7 +319,8 @@
           "key": "E",
           "label": "E"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x14",
@@ -321,7 +333,8 @@
           "key": "R",
           "label": "R"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x15",
@@ -334,7 +347,8 @@
           "key": "T",
           "label": "T"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x16",
@@ -347,7 +361,8 @@
           "key": "Y",
           "label": "Y"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x17",
@@ -360,7 +375,8 @@
           "key": "U",
           "label": "U"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x18",
@@ -373,7 +389,8 @@
           "key": "I",
           "label": "I"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x19",
@@ -386,7 +403,8 @@
           "key": "O",
           "label": "O"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x1A",
@@ -403,7 +421,8 @@
           "key": "CONS:PAUSE PLAY",
           "label": "PL/PS"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x1B",
@@ -420,7 +439,8 @@
           "key": "CONS:SCAN PREVIOUS TRACK",
           "label": "PREV"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x1C",
@@ -437,7 +457,8 @@
           "key": "CONS:SCAN NEXT TRACK",
           "label": "NEXT"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x1D",
@@ -450,7 +471,8 @@
           "key": "\\",
           "label": "\\"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x1E",
@@ -460,10 +482,15 @@
       "h": 4,
       "layers": {
         "0": {
-          "key": "DELETE",
-          "label": "DEL"
+          "key": "PAGEUP",
+          "label": "PGUP"
+        },
+        "1": {
+          "key": "#:U\"Volume Up\" + CONS\"Volume Up\"",
+          "label": "VOL+"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x1F",
@@ -476,7 +503,8 @@
           "key": "CAPSLOCK",
           "label": "CAPSLK"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x20",
@@ -489,7 +517,8 @@
           "key": "A",
           "label": "A"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x21",
@@ -502,7 +531,8 @@
           "key": "S",
           "label": "S"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x22",
@@ -515,7 +545,8 @@
           "key": "D",
           "label": "D"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x23",
@@ -528,7 +559,8 @@
           "key": "F",
           "label": "F"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x24",
@@ -541,7 +573,8 @@
           "key": "G",
           "label": "G"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x25",
@@ -554,7 +587,8 @@
           "key": "H",
           "label": "H"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x26",
@@ -567,7 +601,8 @@
           "key": "J",
           "label": "J"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x27",
@@ -580,7 +615,8 @@
           "key": "K",
           "label": "K"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x28",
@@ -593,7 +629,8 @@
           "key": "L",
           "label": "L"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x29",
@@ -606,7 +643,8 @@
           "key": ";",
           "label": ";"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x2A",
@@ -619,7 +657,8 @@
           "key": "'",
           "label": "'"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x2C",
@@ -632,7 +671,8 @@
           "key": "ENTER",
           "label": "↵"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x2D",
@@ -642,14 +682,15 @@
       "h": 4,
       "layers": {
         "0": {
-          "key": "PAGEUP",
-          "label": "PGUP"
+          "key": "PAGEDOWN",
+          "label": "PGDN"
         },
         "1": {
-          "key": "#:U\"Volume Up\" + CONS\"Volume Up\"",
-          "label": "VOL+"
+          "key": "#:U\"Volume Down\" + CONS\"Volume Down\"",
+          "label": "VOL-"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x2E",
@@ -662,7 +703,8 @@
           "key": "LSHIFT",
           "label": "L⇑"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x30",
@@ -675,7 +717,8 @@
           "key": "Z",
           "label": "Z"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x31",
@@ -688,7 +731,8 @@
           "key": "X",
           "label": "X"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x32",
@@ -701,7 +745,8 @@
           "key": "C",
           "label": "C"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x33",
@@ -714,7 +759,8 @@
           "key": "V",
           "label": "V"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x34",
@@ -727,7 +773,8 @@
           "key": "B",
           "label": "B"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x35",
@@ -740,7 +787,8 @@
           "key": "N",
           "label": "N"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x36",
@@ -753,7 +801,8 @@
           "key": "M",
           "label": "M"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x37",
@@ -766,7 +815,8 @@
           "key": ",",
           "label": ","
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x38",
@@ -779,7 +829,8 @@
           "key": ".",
           "label": "."
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x39",
@@ -792,7 +843,8 @@
           "key": "/",
           "label": "/"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x3A",
@@ -805,7 +857,8 @@
           "key": "RSHIFT",
           "label": "R⇑"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x3B",
@@ -817,8 +870,13 @@
         "0": {
           "key": "UP",
           "label": "↑"
+        },
+        "1": {
+          "key": "PAGEUP",
+          "label": "PGUP"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x3C",
@@ -828,14 +886,11 @@
       "h": 4,
       "layers": {
         "0": {
-          "key": "PAGEDOWN",
-          "label": "PGDN"
-        },
-        "1": {
-          "key": "#:U\"Volume Down\" + CONS\"Volume Down\"",
-          "label": "VOL-"
+          "key": "END",
+          "label": "END"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x3D",
@@ -848,7 +903,8 @@
           "key": "LCTRL",
           "label": "LCTRL"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x3E",
@@ -861,7 +917,8 @@
           "key": "LGUI",
           "label": "LGUI"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x3F",
@@ -874,7 +931,8 @@
           "key": "LALT",
           "label": "LALT"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x40",
@@ -887,7 +945,8 @@
           "key": "SPACE",
           "label": "[ ]"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x41",
@@ -900,7 +959,8 @@
           "key": "RALT",
           "label": "RALT"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x42",
@@ -913,7 +973,8 @@
           "key": "#:Layer[1]",
           "label": "ƒ1"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x44",
@@ -930,7 +991,8 @@
           "key": "HOME",
           "label": "HOME"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x45",
@@ -942,8 +1004,13 @@
         "0": {
           "key": "DOWN",
           "label": "↓"
+        },
+        "1": {
+          "key": "PAGEDOWN",
+          "label": "PGDN"
         }
-      }
+      },
+      "triggers": null
     },
     {
       "code": "0x46",
@@ -960,24 +1027,35 @@
           "key": "END",
           "label": "END"
         }
-      }
+      },
+      "triggers": null
     }
   ],
+  "custom": {
+    "1": "\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n"
+  },
   "animations": {
     "all_on": {
-      "settings": "start, pfunc:interp",
+      "type": null,
       "frames": [
         "P[c:0%](255), P[c:100%](255)"
-      ]
+      ],
+      "settings": "start, pfunc:interp"
     }
   },
+  "canned": {},
   "defines": [],
+  "header": {
+    "Name": "WhiteFox",
+    "Variant": "aria",
+    "Layout": "AriaBlank",
+    "Base": "AriaBase",
+    "Version": "0.2",
+    "Author": "HaaTa (Jacob Alexander) 2015",
+    "KLL": "0.3c",
+    "Date": "2016-05-30",
+    "Generator": "KIICONF 0.2"
+  },
   "leds": [],
-  "custom": {
-    "1": "\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n"
-  },
-  "macros": {
-    "1": []
-  },
-  "canned": {}
+  "macros": {}
 }
