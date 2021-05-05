@@ -5,7 +5,6 @@ CLUSTER_AGENT_COUNT=${CLUSTER_AGENT_COUNT:-'1'}
 CLUSTER_API_PORT=${CLUSTER_API_PORT:-'6443'}
 CLUSTER_NAME=${CLUSTER_NAME:-'portainer'}
 CLUSTER_SERVER_COUNT=${CLUSTER_SERVER_COUNT:-'1'}
-CLUSTER_VOLUME=${CLUSTER_VOLUME:-'/data'}
 
 # Functions
 
@@ -23,7 +22,6 @@ install_k3s()
     --api-port ${CLUSTER_API_PORT} \
     --servers ${CLUSTER_SERVER_COUNT} \
     --agents ${CLUSTER_AGENT_COUNT} \
-    --volume ${CLUSTER_VOLUME}:${CLUSTER_VOLUME} \
     -p 30000-32767:30000-32767@server[0]
     ## FIXME: do the whole server range, not just one server
 }
@@ -37,7 +35,6 @@ usage()
   echo "    CLUSTER_API_PORT                 API port (default: '6443')"
   echo "    CLUSTER_NAME                     name of the cluster (default: 'portainer')"
   echo "    CLUSTER_SERVER_COUNT             number of servers (default: '1')"
-  echo "    CLUSTER_VOLUME                   mount for volumes (default: '/data')"
 }
 
 # Logic
