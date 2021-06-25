@@ -22,8 +22,8 @@ install_k3s()
     --api-port ${CLUSTER_API_PORT} \
     --servers ${CLUSTER_SERVER_COUNT} \
     --agents ${CLUSTER_AGENT_COUNT} \
-    -p 30000-32767:30000-32767@server[0]
-    ## FIXME: do the whole server range, not just one server
+    --registry-create \
+    -p '8080:80@loadbalancer'
 }
 
 ## Display usage information
