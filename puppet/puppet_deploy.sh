@@ -6,6 +6,7 @@
 DEBIAN_FRONTEND="noninteractive"
 DISTRO=${DISTRO:-'ubuntu'}
 FILES_DIR=${FILES_DIR:-'/data/files'}
+PUPPET_BRANCH=${PUPPET_BRANCH:-'production'}
 PUPPET_REPO_GIT=${PUPPET_REPO_GIT:-"git@github.com:frozenfoxx/puppet-churchoffoxx.git"}
 PUPPET_REPO_HOST=${PUPPET_REPO_HOST:-"github.com"}
 PUPPET_REPO_KEY=${PUPPET_REPO_KEY:-""}
@@ -57,13 +58,13 @@ EOF
 deploy_hieradata()
 {
   # Check for the data directory
-  if ! [[ -d /etc/puppetlabs/code/environments/production/data ]]; then
+  if ! [[ -d /etc/puppetlabs/code/environments/${PUPPET_BRANCH}/data ]]; then
     echo "Data directory not found, creating..."
-    mkdir -p /etc/puppetlabs/code/environments/production/data
+    mkdir -p /etc/puppetlabs/code/environments/${PUPPET_BRANCH}/data
   fi
 
   # Move the hieradata files into place
-  mv ${FILES_DIR}/hiera/* /etc/puppetlabs/code/environments/production/data/
+  mv ${FILES_DIR}/hiera/* /etc/puppetlabs/code/environments/${PUPPET_BRANCH}/data/
 }
 
 ## Deploy the latest environment
