@@ -41,7 +41,7 @@ update()
     -H "X-Api-Key: ${API_KEY}" \
     -d "{\"rrset_name\": \"${SUBDOMAIN}\",
       \"rrset_type\": \"A\",
-      \"rrset_ttl\": 1200,
+      \"rrset_ttl\": 10800,
       \"rrset_values\": [\"${EXTERNAL_IP}\"]}" \
     ${CURRENT_ZONE_HREF}/${SUBDOMAIN}/A
 }
