@@ -10,6 +10,24 @@ CURRENT_ZONE_HREF=$(curl -s -H "X-Api-Key: $API_KEY" https://dns.api.gandi.net/a
 
 # Functions
 
+## Verify we have all required tools
+check_commands()
+{
+  # Check for cURL
+  if ! command -v curl &> /dev/null
+  then
+    echo "curl could not be found!"
+    exit
+  fi
+  
+  # Check for jq
+  if ! command -v jq &> /dev/null
+  then
+    echo "jq could not be found!"
+    exit
+  fi
+}
+
 ## Send a call to LiveDNS
 update()
 {
@@ -48,4 +66,5 @@ while [[ "$#" > 1 ]]; do
   shift
 done
 
+check_commands
 update
