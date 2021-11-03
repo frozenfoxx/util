@@ -17,14 +17,14 @@ check_commands()
   if ! command -v curl &> /dev/null
   then
     echo "curl could not be found!"
-    exit
+    exit 1
   fi
   
   # Check for jq
   if ! command -v jq &> /dev/null
   then
     echo "jq could not be found!"
-    exit
+    exit 1
   fi
 }
 
