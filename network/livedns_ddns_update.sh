@@ -6,7 +6,6 @@
 API_KEY=${API_KEY:-''}
 DOMAIN=${DOMAIN:-"example.com"}
 SUBDOMAIN=${SUBDOMAIN:-'*'}
-CURRENT_ZONE_HREF=$(curl -s -H "X-Api-Key: $API_KEY" https://dns.api.gandi.net/api/v5/domains/${DOMAIN} | jq -r '.zone_records_href')
 
 # Functions
 
@@ -33,6 +32,9 @@ update()
 {
   # Retrieve external IP
   EXTERNAL_IP=$(curl -s ifconfig.me)
+
+  # Get the current zone HREF
+  CURRENT_ZONE_HREF=$(curl -s -H "X-Api-Key: $API_KEY" https://dns.api.gandi.net/api/v5/domains/${DOMAIN} | jq -r '.zone_records_href')
 
   # Update the A Record of the subdomain using PUT
   curl -D- -X PUT -H "Content-Type: application/json" \
