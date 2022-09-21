@@ -49,7 +49,7 @@ update()
 ## Display usage information
 usage()
 {
-  echo "Usage: [Environment Variables] livedns_ddns_update.sh [options]"
+  echo "Usage: [Environment Variables] livedns_update.sh [options]"
   echo "  Environment Variables:"
   echo "    API_KEY               Gandi.net LiveDNS API key"
   echo "    DOMAIN                Domain hosted with Gandi (default: example.com)"
