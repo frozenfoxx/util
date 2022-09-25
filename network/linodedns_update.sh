@@ -33,20 +33,12 @@ update()
   EXTERNAL_IP=$(curl -s ifconfig.me)
 
   # Get the domain's ID
-  DOMAIN_ID="$(curl -H "Authorization: Bearer ${TOKEN}" "https://api.linode.com/v4/domains" | \
-    jq -S | \
-    grep -A 11 "${DOMAIN}" | \
-    grep '"id"' | \
-    awk '{print $2}' | \
-    sed 's/,//')"
+  DOMAIN_ID=$(curl -H "Authorization: Bearer ${TOKEN}" "https://api.linode.com/v4/domains" | \
+    jq --arg DOMAIN "${DOMAIN}" '.data[] | select(.domain == $DOMAIN) | .id')
   
   # Get the subdomain's ID
-  SUBDOMAIN_ID="$(curl -H "Authorization: Bearer ${TOKEN}" "https://api.linode.com/v4/domains" | \
-    jq -S | \
-    grep -A 11 "${SUBDOMAIN}" | \
-    grep '"id"' | \
-    awk '{print $2}' | \
-    sed 's/,//')"
+  SUBDOMAIN_ID=$(curl -H "Authorization: Bearer ${TOKEN}" "https://api.linode.com/v4/domains/${DOMAIN_ID}" | \
+    jq --arg SUBDOMAIN "${SUBDOMAIN}" '.data[] | select(.subdomain == $SUBDOMAIN) | .id')
 
   # Update the A Record of the subdomain using PUT
   curl -H "Content-Type: application/json" \
