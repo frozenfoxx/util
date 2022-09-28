@@ -37,8 +37,8 @@ update()
     jq --arg DOMAIN "${DOMAIN}" '.data[] | select(.domain == $DOMAIN) | .id')
   
   # Get the subdomain's ID
-  SUBDOMAIN_ID=$(curl -H "Authorization: Bearer ${TOKEN}" "https://api.linode.com/v4/domains/${DOMAIN_ID}" | \
-    jq --arg SUBDOMAIN "${SUBDOMAIN}" '.data[] | select(.subdomain == $SUBDOMAIN) | .id')
+  SUBDOMAIN_ID=$(curl -H "Authorization: Bearer ${TOKEN}" "https://api.linode.com/v4/domains/${DOMAIN_ID}/records" | \
+    jq --arg SUBDOMAIN "${SUBDOMAIN}" '.data[] | select(.name == $SUBDOMAIN) | .id')
 
   # Update the A Record of the subdomain using PUT
   curl -H "Content-Type: application/json" \
