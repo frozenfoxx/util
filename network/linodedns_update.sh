@@ -26,7 +26,7 @@ check_commands()
   fi
 }
 
-## Send a call to LiveDNS
+## Send a call to Linode DNS
 update()
 {
   # Retrieve external IP
