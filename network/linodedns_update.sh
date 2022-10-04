@@ -5,6 +5,7 @@
 DOMAIN=${DOMAIN:-"example.com"}
 SUBDOMAIN=${SUBDOMAIN:-'*'}
 TOKEN=${TOKEN:-''}
+VERBOSE=''
 
 # Functions
 
@@ -41,7 +42,7 @@ update()
     jq --arg SUBDOMAIN "${SUBDOMAIN}" '.data[] | select(.name == $SUBDOMAIN) | .id')
 
   # Update the A Record of the subdomain using PUT
-  curl -H "Content-Type: application/json" \
+  curl ${VERBOSE} -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${TOKEN}" \
     -X PUT -d '{
       "type": "A",
@@ -56,6 +57,12 @@ update()
       "tag": null
     }' \
     https://api.linode.com/v4/domains/${DOMAIN_ID}/records/${SUBDOMAIN_ID}
+}
+
+## Turns verbose mode on
+verbose()
+{
+  VERBOSE='-v'
 }
 
 ## Display usage information
@@ -74,8 +81,10 @@ usage()
 ## Argument parsing
 while [[ "$#" > 0 ]]; do
   case $1 in
-    -h | --help ) usage
-                  exit 0
+    -h | --help )    usage
+                     exit 0
+		     ;;
+    -v | --verbose ) verbose
   esac
   shift
 done
