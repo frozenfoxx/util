@@ -41,21 +41,36 @@ update()
   SUBDOMAIN_ID=$(curl -H "Authorization: Bearer ${TOKEN}" "https://api.linode.com/v4/domains/${DOMAIN_ID}/records" | \
     jq --arg SUBDOMAIN "${SUBDOMAIN}" '.data[] | select(.name == $SUBDOMAIN) | .id')
 
+  REQUEST_BODY="$(echo {} | jq \
+    --arg SUBDOMAIN "${SUBDOMAIN}" \
+    --arg EXTERNAL_IP "${EXTERNAL_IP}" \
+    '. + { "type": "A",
+           "name": $SUBDOMAIN,
+           "target": $EXTERNAL_IP,
+           "priority": 50,
+           "weight": 50,
+           "port": 80,
+           "service": null,
+           "protocol": null,
+           "ttl_sec": 604800,
+           "tag": null
+         }' \
+  )"
+
+  # If verbose, dump debugging info
+  if ! [[ -z ${VERBOSE} ]]; then
+    echo "DOMAIN: ${DOMAIN}"
+    echo "DOMAIN_ID: ${DOMAIN_ID}"
+    echo "SUBDOMAIN: ${SUBDOMAIN}"
+    echo "SUBDOMAIN_ID: ${SUBDOMAIN_ID}"
+    echo "EXTERNAL_IP: ${EXTERNAL_IP}"
+    echo "REQUEST_BODY: ${REQUEST_BODY}"
+  fi
+
   # Update the A Record of the subdomain using PUT
   curl ${VERBOSE} -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${TOKEN}" \
-    -X PUT -d '{
-      "type": "A",
-      "name": "${SUBDOMAIN}",
-      "target": "${EXTERNAL_IP}",
-      "priority": 50,
-      "weight": 50,
-      "port": 80,
-      "service": null,
-      "protocol": null,
-      "ttl_sec": 604800,
-      "tag": null
-    }' \
+    -X PUT -d "${REQUEST_BODY}" \
     https://api.linode.com/v4/domains/${DOMAIN_ID}/records/${SUBDOMAIN_ID}
 }
 
