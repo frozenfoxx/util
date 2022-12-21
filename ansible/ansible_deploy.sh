@@ -5,6 +5,13 @@
 # Variables
 ANSIBLE_REPO=${ANSIBLE_REPO:-"https://github.com/frozenfoxx/ansible-bricksandblocks.git"}
 PLAYBOOK=${PLAYBOOK:-""}
+RCLONE_CONFIG_INVENTORY_TYPE=${RCLONE_CONFIG_INVENTORY_TYPE:-''}
+RCLONE_CONFIG_INVENTORY_PROVIDER=${RCLONE_CONFIG_INVENTORY_PROVIDER:-''}
+RCLONE_CONFIG_INVENTORY_ENV_AUTH=${RCLONE_CONFIG_INVENTORY_ENV_AUTH:-''}
+RCLONE_CONFIG_INVENTORY_ACCESS_KEY_ID=${RCLONE_CONFIG_INVENTORY_ACCESS_KEY_ID:-''}
+RCLONE_CONFIG_INVENTORY_SECRET_ACCESS_KEY=${RCLONE_CONFIG_INVENTORY_SECRET_ACCESS_KEY:-''}
+RCLONE_CONFIG_INVENTORY_ENDPOINT=${RCLONE_CONFIG_INVENTORY_ENDPOINT:-''}
+RCLONE_CONFIG_INVENTORY_ACL=${RCLONE_CONFIG_INVENTORY_ACL:-''}
 PRIVATE_SSH_KEY=${PRIVATE_SSH_KEY:-"~/.ssh/id_rsa"}
 TARGET=${TARGET:-""}
 
@@ -30,6 +37,14 @@ check_commands()
     echo "git could not be found!"
     exit 1
   fi
+
+  # Check for rclone if necessary
+  if [[ ! -z ${RCLONE_CONFIG_INVENTORY_TYPE} ]]; then
+    if ! command -v rclone &> /dev/null; then
+      echo "rclone could not be found!"
+      exit 1
+    fi
+  fi
 }
 
 ## Clean up the Ansible repository
@@ -39,6 +54,13 @@ cleanup_repo()
     echo "Cleaning up Ansible repository..."
     rm -rf ./ansible
   fi
+}
+
+## Clone the Ansible Inventory
+clone_inventory()
+{
+  echo "Cloning Inventory..."
+  rclone copy inventory:inventory/ ansible/
 }
 
 ## Clone the Ansible repository
@@ -70,16 +92,23 @@ usage()
 {
   echo "Usage: [Environment Variables] ansible_deploy.sh [options]"
   echo "  Environment Variables:"
-  echo "    ANSIBLE_REPO       git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
-  echo "    PLAYBOOK           playbook name to run against TARGET"
-  echo "    PRIVATE_SSH_KEY    private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
-  echo "    TARGET             IP/FQDN of the target to configure"
+  echo "    ANSIBLE_REPO                               git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
+  echo "    PLAYBOOK                                   playbook name to run against TARGET"
+  echo "    PRIVATE_SSH_KEY                            private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
+  echo "    RCLONE_CONFIG_INVENTORY_TYPE               rclone environment configuration for Inventory (optional)"
+  echo "    RCLONE_CONFIG_INVENTORY_PROVIDER           rclone environment configuration for Inventory (optional)"
+  echo "    RCLONE_CONFIG_INVENTORY_ENV_AUTH           rclone environment configuration for Inventory (optional)"
+  echo "    RCLONE_CONFIG_INVENTORY_ACCESS_KEY_ID      rclone environment configuration for Inventory (optional)"
+  echo "    RCLONE_CONFIG_INVENTORY_SECRET_ACCESS_KEY  rclone environment configuration for Inventory (optional)"
+  echo "    RCLONE_CONFIG_INVENTORY_ENDPOINT           rclone environment configuration for Inventory (optional)"
+  echo "    RCLONE_CONFIG_INVENTORY_ACL                rclone environment configuration for Inventory (optional)"
+  echo "    TARGET                                     IP/FQDN of the target to configure"
   echo "  Options:"
-  echo "    -h | --help        display this usage information"
-  echo "    --ansible-repo     git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
-  echo "    --playbook         playbook name to run against TARGET"
-  echo "    --private_ssh_key  private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
-  echo "    --target           IP/FQDN of the target to configure"
+  echo "    -h | --help                                display this usage information"
+  echo "    --ansible-repo                             git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
+  echo "    --playbook                                 playbook name to run against TARGET"
+  echo "    --private_ssh_key                          private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
+  echo "    --target                                   IP/FQDN of the target to configure"
 }
 
 # Logic
@@ -104,6 +133,11 @@ done
 check_commands
 cleanup_repo
 clone_repo
+
+# If a bucket has been provided for Inventory, clone it
+if [[ ! -z ${RCLONE_CONFIG_INVENTORY_TYPE} ]]; then
+  clone_inventory
+fi
 
 # Install roles from Galaxy if available
 if [[ -f ./ansible/requirements.yml ]]; then
