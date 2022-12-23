@@ -5,15 +5,16 @@
 # Variables
 ANSIBLE_REPO=${ANSIBLE_REPO:-"https://github.com/frozenfoxx/ansible-bricksandblocks.git"}
 PLAYBOOK=${PLAYBOOK:-""}
-RCLONE_CONFIG_INVENTORY_TYPE=${RCLONE_CONFIG_INVENTORY_TYPE:-''}
-RCLONE_CONFIG_INVENTORY_PROVIDER=${RCLONE_CONFIG_INVENTORY_PROVIDER:-''}
-RCLONE_CONFIG_INVENTORY_ENV_AUTH=${RCLONE_CONFIG_INVENTORY_ENV_AUTH:-''}
-RCLONE_CONFIG_INVENTORY_ACCESS_KEY_ID=${RCLONE_CONFIG_INVENTORY_ACCESS_KEY_ID:-''}
-RCLONE_CONFIG_INVENTORY_SECRET_ACCESS_KEY=${RCLONE_CONFIG_INVENTORY_SECRET_ACCESS_KEY:-''}
-RCLONE_CONFIG_INVENTORY_ENDPOINT=${RCLONE_CONFIG_INVENTORY_ENDPOINT:-''}
-RCLONE_CONFIG_INVENTORY_ACL=${RCLONE_CONFIG_INVENTORY_ACL:-''}
 PRIVATE_SSH_KEY=${PRIVATE_SSH_KEY:-"~/.ssh/id_rsa"}
 TARGET=${TARGET:-""}
+
+# If cloning Inventory from a remote target is desired, specify configuration via environment variables.
+#   This script will check for the TYPE key, otherwise it will leave it with dynamic environment
+#   variable lookup for each role.
+#   i.e. RCLONE_CONFIG_[TARGET]_[KEY]
+#   RCLONE_CONFIG_INVENTORY_PROVIDER=s3
+#   RCLONE_CONFIG_INVENTORY_ACCESS_KEY_ID=xxxxxxxxxxx
+RCLONE_CONFIG_INVENTORY_TYPE=${RCLONE_CONFIG_INVENTORY_TYPE:-''}
 
 # Functions
 
@@ -95,13 +96,7 @@ usage()
   echo "    ANSIBLE_REPO                               git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
   echo "    PLAYBOOK                                   playbook name to run against TARGET"
   echo "    PRIVATE_SSH_KEY                            private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
-  echo "    RCLONE_CONFIG_INVENTORY_TYPE               rclone environment configuration for Inventory (optional)"
-  echo "    RCLONE_CONFIG_INVENTORY_PROVIDER           rclone environment configuration for Inventory (optional)"
-  echo "    RCLONE_CONFIG_INVENTORY_ENV_AUTH           rclone environment configuration for Inventory (optional)"
-  echo "    RCLONE_CONFIG_INVENTORY_ACCESS_KEY_ID      rclone environment configuration for Inventory (optional)"
-  echo "    RCLONE_CONFIG_INVENTORY_SECRET_ACCESS_KEY  rclone environment configuration for Inventory (optional)"
-  echo "    RCLONE_CONFIG_INVENTORY_ENDPOINT           rclone environment configuration for Inventory (optional)"
-  echo "    RCLONE_CONFIG_INVENTORY_ACL                rclone environment configuration for Inventory (optional)"
+  echo "    RCLONE_CONFIG_INVENTORY_TYPE               use rclone to clone Inventory by setting this and other remote config keys (optional)"
   echo "    TARGET                                     IP/FQDN of the target to configure"
   echo "  Options:"
   echo "    -h | --help                                display this usage information"
