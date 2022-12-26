@@ -61,7 +61,7 @@ cleanup_repo()
 clone_inventory()
 {
   echo "Cloning Inventory..."
-  rclone copy inventory:inventory/ ansible/
+  rclone copy inventory:inventory/* ./ansible/
 }
 
 ## Clone the Ansible repository
