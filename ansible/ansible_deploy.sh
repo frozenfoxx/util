@@ -4,6 +4,7 @@
 
 # Variables
 ANSIBLE_REPO=${ANSIBLE_REPO:-"https://github.com/frozenfoxx/ansible-bricksandblocks.git"}
+INVENTORY_PATH=${INVENTORY_PATH:-"inventory"}
 PLAYBOOK=${PLAYBOOK:-""}
 PRIVATE_SSH_KEY=${PRIVATE_SSH_KEY:-"~/.ssh/id_rsa"}
 TARGET=${TARGET:-""}
@@ -61,7 +62,7 @@ cleanup_repo()
 clone_inventory()
 {
   echo "Cloning Inventory..."
-  rclone copy inventory:inventory/* ./ansible/
+  rclone copy inventory:${INVENTORY_PATH}/* ./ansible/
 }
 
 ## Clone the Ansible repository
@@ -94,6 +95,7 @@ usage()
   echo "Usage: [Environment Variables] ansible_deploy.sh [options]"
   echo "  Environment Variables:"
   echo "    ANSIBLE_REPO                               git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
+  echo "    INVENTORY_PATH                             path for cloning Inventory (optional)"
   echo "    PLAYBOOK                                   playbook name to run against TARGET"
   echo "    PRIVATE_SSH_KEY                            private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
   echo "    RCLONE_CONFIG_INVENTORY_TYPE               use rclone to clone Inventory by setting this and other remote config keys (optional)"
@@ -101,6 +103,7 @@ usage()
   echo "  Options:"
   echo "    -h | --help                                display this usage information"
   echo "    --ansible-repo                             git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
+  echo "    --inventory-path                           path for cloning Inventory (optional)"
   echo "    --playbook                                 playbook name to run against TARGET"
   echo "    --private_ssh_key                          private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
   echo "    --target                                   IP/FQDN of the target to configure"
@@ -112,6 +115,8 @@ usage()
 while [[ "$#" > 1 ]]; do
   case $1 in
     --ansible-repo )    ANSIBLE_REPO="$2"
+                        ;;
+    --inventory-path )  INVENTORY_PATH="$2"
                         ;;
     --playbook )        PLAYBOOK="$2"
                         ;;
