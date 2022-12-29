@@ -62,7 +62,16 @@ cleanup_repo()
 clone_inventory()
 {
   echo "Cloning Inventory..."
-  rclone copy inventory:${INVENTORY_PATH}/* ./ansible/
+
+  local _rclone_arguments=""
+
+  # Configure the arguments to rclone
+  for var in $(compgen -v | grep RCLONE_CONFIG_INVENTORY); do
+    _rclone_arguments="${var}=${!var} ${_rclone_arguments} "
+  done
+
+  # Run rclone with the arguments
+  ${_rclone_arguments} rclone copy inventory:${INVENTORY_PATH}/* ./ansible/
 }
 
 ## Clone the Ansible repository
