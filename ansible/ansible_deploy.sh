@@ -67,11 +67,11 @@ clone_inventory()
 
   # Configure the arguments to rclone
   for var in $(compgen -v | grep RCLONE_CONFIG_INVENTORY); do
-    _rclone_arguments="${var}=${!var} ${_rclone_arguments} "
+    _rclone_arguments="${var}=\"${!var}\" ${_rclone_arguments}"
   done
 
   # Run rclone with the arguments
-  ${_rclone_arguments} rclone copy inventory:${INVENTORY_PATH}/* ./ansible/
+  eval ${_rclone_arguments} rclone copy inventory:${INVENTORY_PATH}/ ./ansible/
 }
 
 ## Clone the Ansible repository
