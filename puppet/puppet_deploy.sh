@@ -15,6 +15,16 @@ RELEASE=${RELEASE:-'bionic'}
 
 # Functions
 
+## Verify we have all required tools
+check_commands()
+{
+  # Check for rclone
+  if ! command -v rclone &> /dev/null; then
+    echo "rclone could not be found!"
+    exit 1
+  fi
+}
+
 ## Clean out SSH as it's no longer needed
 cleanup_ssh()
 {
@@ -170,6 +180,7 @@ while [[ "$#" > 1 ]]; do
   shift
 done
 
+check_commands
 install
 configure_ssh
 deploy_r10k
