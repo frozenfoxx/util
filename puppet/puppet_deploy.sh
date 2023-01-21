@@ -5,13 +5,20 @@
 # Variables
 DEBIAN_FRONTEND="noninteractive"
 DISTRO=${DISTRO:-'ubuntu'}
-FILES_DIR=${FILES_DIR:-'/data/files'}
+HIERADATA_PATH=${HIERADATA_PATH:-'.'}
 PUPPET_BRANCH=${PUPPET_BRANCH:-'production'}
 PUPPET_REPO_GIT=${PUPPET_REPO_GIT:-"git@github.com:frozenfoxx/puppet-churchoffoxx.git"}
 PUPPET_REPO_HOST=${PUPPET_REPO_HOST:-"github.com"}
 PUPPET_REPO_KEY=${PUPPET_REPO_KEY:-""}
 PUPPET_REPO_USER=${PUPPET_REPO_USER:-"frozenfoxx"}
 RELEASE=${RELEASE:-'bionic'}
+
+# When cloning Hieradata from a remote target, specify configuration via environment variables.
+#   This script will check for the TYPE key to accomplish this.
+#   i.e. RCLONE_CONFIG_[TARGET]_[KEY]
+#   RCLONE_CONFIG_HIERADATA_PROVIDER=s3
+#   RCLONE_CONFIG_HIERADATA_ACCESS_KEY_ID=xxxxxxxxxxx
+RCLONE_CONFIG_HIERADATA_TYPE=${RCLONE_CONFIG_HIERADATA_TYPE:-''}
 
 # Functions
 
@@ -75,12 +82,21 @@ deploy_hieradata()
 {
   # Check for the data directory
   if ! [[ -d /etc/puppetlabs/code/environments/${PUPPET_BRANCH}/data ]]; then
-    echo "Data directory not found, creating..."
+    eval echo "[-] Data directory not found, creating..."
     mkdir -p /etc/puppetlabs/code/environments/${PUPPET_BRANCH}/data
   fi
 
-  # Move the hieradata files into place
-  mv ${FILES_DIR}/hiera/* /etc/puppetlabs/code/environments/${PUPPET_BRANCH}/data/
+  echo "Cloning Hieradata..."
+
+  local _rclone_arguments=""
+
+  # Configure the arguments to rclone
+  for var in $(compgen -v | grep RCLONE_CONFIG_HIERADATA); do
+    _rclone_arguments="${var}=\"${!var}\" ${_rclone_arguments}"
+  done
+
+  # Run rclone with the arguments
+  eval ${_rclone_arguments} rclone copy hieradata:${HIERADATA_PATH}/ /etc/puppetlabs/code/environments/${PUPPET_BRANCH}/data/
 }
 
 ## Deploy the latest environment
@@ -146,21 +162,24 @@ usage()
 {
   echo "Usage: [Environment Variables] puppet_deploy.sh [options]"
   echo "  Environment Variables:"
-  echo "    DISTRO                Linux distro to serve (default: 'ubuntu')"
-  echo "    LOG_PATH              base directory for logging if enabled (default: \"/root/log\")"
-  echo "    PUPPET_REPO_GIT       git repo containing the Puppet codebase (default: \"git@github.com:frozenfoxx/puppet-churchoffoxx.git\")"
-  echo "    PUPPET_REPO_HOST      FQDN of the git repo containing the Puppet codebase (default: \"github.com\")"
-  echo "    PUPPET_REPO_KEY       SSH key for accessing PUPPET_REPO_GIT"
-  echo "    PUPPET_REPO_USER      user for cloning the Puppet codebase (default: \"frozenfoxx\")"
-  echo "    RELEASE               release codename for distro (default: \"bionic\")"
+  echo "    DISTRO                          Linux distro to serve (default: 'ubuntu')"
+  echo "    HIERADATA_PATH                  path for cloning Hieradata (default: \".\")"
+  echo "    PUPPET_REPO_GIT                 git repo containing the Puppet codebase (default: \"git@github.com:frozenfoxx/puppet-churchoffoxx.git\")"
+  echo "    PUPPET_REPO_HOST                FQDN of the git repo containing the Puppet codebase (default: \"github.com\")"
+  echo "    PUPPET_REPO_KEY                 SSH key for accessing PUPPET_REPO_GIT"
+  echo "    PUPPET_REPO_USER                user for cloning the Puppet codebase (default: \"frozenfoxx\")"
+  echo "    RELEASE                         release codename for distro (default: \"bionic\")"
+  echo "    RCLONE_CONFIG_HIERADATA_TYPE    use rclone to clone Hieradata by setting this and other remote config keys"
   echo "  Options:"
-  echo "    -h | --help            display this usage information"
-  echo "    --distro               Linux distro to serve (override environment variable if present)"
-  echo "    --puppet-repo-git      git repo containing the Puppet codebase (override environment variable if present)"
-  echo "    --puppet-repo-host     FQDN of the git repo containing the Puppet codebase (override environment variable if present)"
-  echo "    --puppet-repo-key      SSH key for accessing PUPPET_REPO_GIT (override environment variable if present)"
-  echo "    --puppet-repo-user     user for cloning the Puppet codebase (override environment variable if present)"
-  echo "    --release              release of the distro (override environment variable if present)"
+  echo "    -h | --help                     display this usage information"
+  echo "    --distro                        Linux distro to serve (override environment variable if present)"
+  echo "    --hieradata-path                path for cloning Hieradata (override environment variable if present)"
+  echo "    --puppet-repo-git               git repo containing the Puppet codebase (override environment variable if present)"
+  echo "    --puppet-repo-host              FQDN of the git repo containing the Puppet codebase (override environment variable if present)"
+  echo "    --puppet-repo-key               SSH key for accessing PUPPET_REPO_GIT (override environment variable if present)"
+  echo "    --puppet-repo-user              user for cloning the Puppet codebase (override environment variable if present)"
+  echo "    --rclone-config-hieradata-type  use rclone to clone Hieradata by setting this and other remote config keys (override environment variable if present)"
+  echo "    --release                       release of the distro (override environment variable if present)"
 }
 
 # Logic
@@ -168,20 +187,24 @@ usage()
 ## Argument parsing
 while [[ "$#" > 1 ]]; do
   case $1 in
-    --distro )         DISTRO="$2"
-                       ;;
-    --puppet-repo-git )  PUPPET_REPO_GIT="$2"
-                         ;;
-    --puppet-repo-host ) PUPPET_REPO_HOST="$2"
-                         ;;
-    --puppet-repo-key )  PUPPET_REPO_KEY="$2"
-                         ;;
-    --puppet-repo-user ) PUPPET_REPO_USER="$2"
-                         ;;
-    --release )          RELEASE="$2"
-                         ;;
-    -h | --help )        usage
-                         exit 0
+    --distro )                       DISTRO="$2"
+                                     ;;
+    --hieradata-path )               HIERADATA_PATH="$2"
+                                     ;;
+    --puppet-repo-git )              PUPPET_REPO_GIT="$2"
+                                     ;;
+    --puppet-repo-host )             PUPPET_REPO_HOST="$2"
+                                     ;;
+    --puppet-repo-key )              PUPPET_REPO_KEY="$2"
+                                     ;;
+    --puppet-repo-user )             PUPPET_REPO_USER="$2"
+                                     ;;
+    --rclone-config-hieradata-type ) RCLONE_CONFIG_HIERADATA_TYPE="$2"
+                                     ;;
+    --release )                      RELEASE="$2"
+                                     ;;
+    -h | --help )                    usage
+                                     exit 0
   esac
   shift
 done
