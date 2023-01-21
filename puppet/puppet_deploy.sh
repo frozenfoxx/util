@@ -18,6 +18,12 @@ RELEASE=${RELEASE:-'bionic'}
 ## Verify we have all required tools
 check_commands()
 {
+  # Check for curl
+  if ! command -v curl &> /dev/null; then
+    echo "curl could not be found!"
+    exit 1
+  fi
+
   # Check for rclone
   if ! command -v rclone &> /dev/null; then
     echo "rclone could not be found!"
