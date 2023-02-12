@@ -67,7 +67,7 @@ clone_inventory()
 
   # Configure the arguments to rclone
   for var in $(compgen -v | grep RCLONE_CONFIG_INVENTORY); do
-    _rclone_arguments="${var}=\"${!var}\" ${_rclone_arguments}"
+    _rclone_arguments="${var}='${!var}' ${_rclone_arguments}"
   done
 
   # Run rclone with the arguments
