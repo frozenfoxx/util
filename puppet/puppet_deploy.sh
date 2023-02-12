@@ -92,7 +92,7 @@ deploy_hieradata()
 
   # Configure the arguments to rclone
   for var in $(compgen -v | grep RCLONE_CONFIG_HIERADATA); do
-    _rclone_arguments="${var}=\"${!var}\" ${_rclone_arguments}"
+    _rclone_arguments="${var}='${!var}' ${_rclone_arguments}"
   done
 
   # Run rclone with the arguments
