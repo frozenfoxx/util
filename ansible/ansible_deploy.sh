@@ -87,7 +87,8 @@ run_galaxy()
 {
   echo "Running ansible-galaxy installer..."
 
-  ansible-galaxy install --roles-path ./ansible/roles -r ./ansible/requirements.yml
+  ansible-galaxy install -p ./ansible/roles -r ./ansible/requirements.yml
+  ansible-galaxy collection install -p ./ansible/roles -r ./ansible/requirements.yml
 }
 
 ## Run a playbook against the target
