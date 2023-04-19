@@ -88,7 +88,7 @@ run_galaxy()
   echo "Running ansible-galaxy installer..."
 
   ansible-galaxy install -p ./ansible/roles -r ./ansible/requirements.yml
-  ansible-galaxy collection install -p ./ansible/roles -r ./ansible/requirements.yml
+  ansible-galaxy collection install -p ./ansible/collections -r ./ansible/requirements.yml
 }
 
 ## Run a playbook against the target
@@ -96,7 +96,7 @@ run_playbook()
 {
   echo "Running ${PLAYBOOK} against ${TARGET}..."
 
-  ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./ansible/${PLAYBOOK}
+  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG=./ansible/ansible.cfg ansible-playbook -u root -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./ansible/${PLAYBOOK}
 }
 
 ## Display usage
