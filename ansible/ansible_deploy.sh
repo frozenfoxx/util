@@ -3,6 +3,7 @@
 # Deploys hosts with Ansible
 
 # Variables
+ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-"ansible/ansible.cfg"}
 ANSIBLE_REPO=${ANSIBLE_REPO:-"https://github.com/frozenfoxx/ansible-bricksandblocks.git"}
 INVENTORY_PATH=${INVENTORY_PATH:-"inventory"}
 PLAYBOOK=${PLAYBOOK:-""}
@@ -96,7 +97,7 @@ run_playbook()
 {
   echo "Running ${PLAYBOOK} against ${TARGET}..."
 
-  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG=./ansible/ansible.cfg ansible-playbook -u root -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./ansible/${PLAYBOOK}
+  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG="ansible/ansible.cfg" ansible-playbook -u root -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./ansible/${PLAYBOOK}
 }
 
 ## Display usage
@@ -104,6 +105,7 @@ usage()
 {
   echo "Usage: [Environment Variables] ansible_deploy.sh [options]"
   echo "  Environment Variables:"
+  echo "    ANSIBLE_CONFIG                             location of an ansible configuration override (default: \"ansible/ansible.cfg\")"
   echo "    ANSIBLE_REPO                               git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
   echo "    INVENTORY_PATH                             path for cloning Inventory (optional)"
   echo "    PLAYBOOK                                   playbook name to run against TARGET"
@@ -112,6 +114,7 @@ usage()
   echo "    TARGET                                     IP/FQDN of the target to configure"
   echo "  Options:"
   echo "    -h | --help                                display this usage information"
+  echo "    --ansible-config                           location of an ansible configuration override (default: \"ansible/ansible.cfg\")"
   echo "    --ansible-repo                             git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
   echo "    --inventory-path                           path for cloning Inventory (optional)"
   echo "    --playbook                                 playbook name to run against TARGET"
@@ -124,6 +127,8 @@ usage()
 ## Argument parsing
 while [[ "$#" > 1 ]]; do
   case $1 in
+    --ansible-config)   ANSIBLE_CONFIG="$2"
+                        ;;
     --ansible-repo )    ANSIBLE_REPO="$2"
                         ;;
     --inventory-path )  INVENTORY_PATH="$2"
