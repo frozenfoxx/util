@@ -3,7 +3,8 @@
 # Deploys hosts with Ansible
 
 # Variables
-ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-"ansible/ansible.cfg"}
+ANSIBLE_DIR=${ANSIBLE_DIR:-"ansible"}
+ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-"${ANSIBLE_DIR}/ansible.cfg"}
 ANSIBLE_REPO=${ANSIBLE_REPO:-"https://github.com/frozenfoxx/ansible-bricksandblocks.git"}
 INVENTORY_PATH=${INVENTORY_PATH:-"inventory"}
 PLAYBOOK=${PLAYBOOK:-""}
@@ -53,9 +54,9 @@ check_commands()
 ## Clean up the Ansible repository
 cleanup_repo()
 {
-  if [[ -d ./ansible ]]; then
+  if [[ -d ./${ANSIBLE_DIR} ]]; then
     echo "Cleaning up Ansible repository..."
-    rm -rf ./ansible
+    rm -rf ./${ANSIBLE_DIR}
   fi
 }
 
@@ -72,7 +73,7 @@ clone_inventory()
   done
 
   # Run rclone with the arguments
-  eval ${_rclone_arguments} rclone copy inventory:${INVENTORY_PATH}/ ./ansible/
+  eval ${_rclone_arguments} rclone copy inventory:${INVENTORY_PATH}/ ./${ANSIBLE_DIR}/
 }
 
 ## Clone the Ansible repository
@@ -80,7 +81,7 @@ clone_repo()
 {
   echo "Cloning Ansible repo..."
 
-  git clone ${ANSIBLE_REPO} ansible
+  git clone ${ANSIBLE_REPO} ${ANSIBLE_DIR}
 }
 
 ## Run ansible-galaxy installer
@@ -88,8 +89,8 @@ run_galaxy()
 {
   echo "Running ansible-galaxy installer..."
 
-  ansible-galaxy install -p ./ansible/roles -r ./ansible/requirements.yml
-  ansible-galaxy collection install -p ./ansible/collections -r ./ansible/requirements.yml
+  ansible-galaxy install -p ./${ANSIBLE_DIR}/roles -r ./${ANSIBLE_DIR}/requirements.yml
+  ansible-galaxy collection install -p ./${ANSIBLE_DIR}/collections -r ./${ANSIBLE_DIR}/requirements.yml
 }
 
 ## Run a playbook against the target
@@ -97,7 +98,7 @@ run_playbook()
 {
   echo "Running ${PLAYBOOK} against ${TARGET}..."
 
-  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG="ansible/ansible.cfg" ansible-playbook -u root -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./ansible/${PLAYBOOK}
+  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG="${ANSIBLE_DIR}/ansible.cfg" ansible-playbook -u root -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./${ANSIBLE_DIR}/${PLAYBOOK}
 }
 
 ## Display usage
@@ -105,7 +106,8 @@ usage()
 {
   echo "Usage: [Environment Variables] ansible_deploy.sh [options]"
   echo "  Environment Variables:"
-  echo "    ANSIBLE_CONFIG                             location of an ansible configuration override (default: \"ansible/ansible.cfg\")"
+  echo "    ANSIBLE_CONFIG                             location of an ansible configuration override (default: \"${ANSIBLE_DIR}/ansible.cfg\")"
+  echo "    ANSIBLE_DIR                                location to clone the Ansible repository to (default: \"ansible\")"
   echo "    ANSIBLE_REPO                               git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
   echo "    INVENTORY_PATH                             path for cloning Inventory (optional)"
   echo "    PLAYBOOK                                   playbook name to run against TARGET"
@@ -114,7 +116,8 @@ usage()
   echo "    TARGET                                     IP/FQDN of the target to configure"
   echo "  Options:"
   echo "    -h | --help                                display this usage information"
-  echo "    --ansible-config                           location of an ansible configuration override (default: \"ansible/ansible.cfg\")"
+  echo "    --ansible-config                           location of an ansible configuration override (default: \"${ANSIBLE_DIR}}/ansible.cfg\")"
+  echo "    --ansible-dir                              location to clone the Ansible repository to (default: \"ansible\")"
   echo "    --ansible-repo                             git repo containing the Ansible codebase (default: \"https://github.com/frozenfoxx/ansible-bricksandblocks.git\")"
   echo "    --inventory-path                           path for cloning Inventory (optional)"
   echo "    --playbook                                 playbook name to run against TARGET"
@@ -128,6 +131,8 @@ usage()
 while [[ "$#" > 1 ]]; do
   case $1 in
     --ansible-config)   ANSIBLE_CONFIG="$2"
+                        ;;
+    --ansible-dir)      ANSIBLE_DIR="$2"
                         ;;
     --ansible-repo )    ANSIBLE_REPO="$2"
                         ;;
