@@ -160,7 +160,7 @@ if [[ ! -z ${RCLONE_CONFIG_INVENTORY_TYPE} ]]; then
 fi
 
 # Install roles from Galaxy if available
-if [[ -f ./ansible/requirements.yml ]]; then
+if [[ -f ./${ANSIBLE_DIR}/requirements.yml ]]; then
   run_galaxy
 fi
 
