@@ -9,6 +9,7 @@ ANSIBLE_REPO=${ANSIBLE_REPO:-"https://github.com/frozenfoxx/ansible-bricksandblo
 INVENTORY_PATH=${INVENTORY_PATH:-"inventory"}
 PLAYBOOK=${PLAYBOOK:-""}
 PRIVATE_SSH_KEY=${PRIVATE_SSH_KEY:-"~/.ssh/id_rsa"}
+SSH_USER=${SSH_USER:-'root'}
 TARGET=${TARGET:-""}
 
 # If cloning Inventory from a remote target is desired, specify configuration via environment variables.
@@ -98,7 +99,7 @@ run_playbook()
 {
   echo "Running ${PLAYBOOK} against ${TARGET}..."
 
-  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG="${ANSIBLE_DIR}/ansible.cfg" ansible-playbook -u root -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./${ANSIBLE_DIR}/${PLAYBOOK}
+  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG="${ANSIBLE_DIR}/ansible.cfg" ansible-playbook -u ${SSH_USER} -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./${ANSIBLE_DIR}/${PLAYBOOK}
 }
 
 ## Display usage
@@ -113,6 +114,7 @@ usage()
   echo "    PLAYBOOK                                   playbook name to run against TARGET"
   echo "    PRIVATE_SSH_KEY                            private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
   echo "    RCLONE_CONFIG_INVENTORY_TYPE               use rclone to clone Inventory by setting this and other remote config keys (optional)"
+  echo "    SSH_USER                                   user to connect to the target with (default: root)"
   echo "    TARGET                                     IP/FQDN of the target to configure"
   echo "  Options:"
   echo "    -h | --help                                display this usage information"
@@ -122,6 +124,7 @@ usage()
   echo "    --inventory-path                           path for cloning Inventory (optional)"
   echo "    --playbook                                 playbook name to run against TARGET"
   echo "    --private_ssh_key                          private SSH key to communicate with TARGET (default: \"~/.ssh/id_rsa\")"
+  echo "    --ssh_user                                 user to connect to the target with (default: root)"
   echo "    --target                                   IP/FQDN of the target to configure"
 }
 
@@ -141,6 +144,8 @@ while [[ "$#" > 1 ]]; do
     --playbook )        PLAYBOOK="$2"
                         ;;
     --private_ssh_key ) PRIVATE_SSH_KEY="$2"
+                        ;;
+    --ssh_user )        SSH_USER="$2"
                         ;;
     --target )          TARGET="$2"
                         ;;
