@@ -99,7 +99,7 @@ run_playbook()
 {
   echo "Running ${PLAYBOOK} against ${TARGET}..."
 
-  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG="${ANSIBLE_DIR}/ansible.cfg" ansible-playbook -u ${SSH_USER} -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} ./${ANSIBLE_DIR}/${PLAYBOOK}
+  ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_CONFIG="${ANSIBLE_DIR}/ansible.cfg" ansible-playbook -u ${SSH_USER} -i ${TARGET}, --private-key ${PRIVATE_SSH_KEY} -b ./${ANSIBLE_DIR}/${PLAYBOOK}
 }
 
 ## Display usage
