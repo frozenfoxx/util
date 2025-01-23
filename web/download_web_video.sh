@@ -24,7 +24,11 @@ check_commands()
 ## Download video
 download()
 {
-  yt-dlp -f "${FORMAT}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
+  if ! [[ -z ${USERNAME} ]]; then
+    yt-dlp -f "${FORMAT}" --username "${USERNAME}" --password "${PASSWORD}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
+  else
+    yt-dlp -f "${FORMAT}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
+  fi
 }
 
 ## Select format
