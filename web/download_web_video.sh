@@ -5,7 +5,7 @@
 FORMAT=${FORMAT}
 URL=${URL}
 PREFIX=${PREFIX}
-FILENAME=${FILENAME}
+FILENAME=${FILENAME-%(title)s.%(ext).s}
 USERNAME=${USERNAME}
 PASSWORD=${PASSWORD}
 
@@ -21,10 +21,29 @@ check_commands()
   fi
 }
 
-## Select formats
-formats()
+## Download video
+download()
 {
-  yt-dlp --list-formats ${URL}
+  yt-dlp -f "${FORMAT}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
+}
+
+## Select format
+format()
+{
+  yt-dlp --list-formats "${URL}"
+  read -p "Select format ([video][+audio]): " FORMAT
+}
+
+## Obtain credentials
+get_credentials()
+{
+  if [[ -z ${USERNAME} ]]; then
+    read -p "Username: " USERNAME
+  fi
+
+  if [[ -z ${PASSWORD} ]]; then
+    read -sp "Password: " PASSWORD
+  fi
 }
 
 ## Display usage
@@ -32,10 +51,14 @@ usage()
 {
   echo "Usage: [Environment Variables] download_web_video.sh [options]"
   echo "  Environment Variables:"
+  echo "    FILENAME                                   set the format of the filename (default: %(title)s.%(ext).s"
+  echo "    PREFIX                                     set a prefix for the outputted file(s)"
   echo "    URL                                        set URL to download from"
   echo "  Options:"
+  echo "    -f | --filename                            set the format of the filename (default: %(title)s.%(ext).s"
   echo "    -h | --help                                display this usage information"
-  echo "    --u | --url                                set URL to download from"
+  echo "    -p | --prefix                              set a prefix for the outputted file(s)"
+  echo "    -u | --url                                 set URL to download from"
 }
 
 # Logic
@@ -75,4 +98,5 @@ done
 set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 check_commands
-
+select_format
+download
