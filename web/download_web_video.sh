@@ -85,6 +85,7 @@ while [[ $# -gt 0 ]]; do
       PREFIX="$2"
       shift # past argument
       shift # past value
+      ;;
     -*|--*)
       echo "Unknown option $1"
       exit 1
@@ -92,6 +93,7 @@ while [[ $# -gt 0 ]]; do
     -h|--help)
       usage
       exit 0
+      ;;
     *)
       POSITIONAL_ARGS+=("$1") # save positional arg
       shift # past argument
