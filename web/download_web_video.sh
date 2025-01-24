@@ -55,11 +55,11 @@ usage()
 {
   echo "Usage: [Environment Variables] download_web_video.sh [options]"
   echo "  Environment Variables:"
-  echo "    FILENAME                                   set the format of the filename (default: %(title)s.%(ext).s"
+  echo "    FILENAME                                   set the format of the filename (default: %(title)s.%(ext)s)"
   echo "    PREFIX                                     set a prefix for the outputted file(s)"
   echo "    URL                                        set URL to download from"
   echo "  Options:"
-  echo "    -f | --filename                            set the format of the filename (default: %(title)s.%(ext).s"
+  echo "    -f | --filename                            set the format of the filename (default: %(title)s.%(ext)s)"
   echo "    -h | --help                                display this usage information"
   echo "    -p | --prefix                              set a prefix for the outputted file(s)"
   echo "    -u | --url                                 set URL to download from"
