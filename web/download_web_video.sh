@@ -19,6 +19,12 @@ check_commands()
     echo "yt-dlp could not be found!"
     exit 1
   fi
+
+  # Check for a URL to pull from
+  if [[ -z "${URL}" ]]; then
+    echo "You must supply a URL to download from!"
+    exit 1
+  fi
 }
 
 ## Download video
@@ -32,7 +38,7 @@ download()
 }
 
 ## Select format
-format()
+select_format()
 {
   yt-dlp --list-formats "${URL}"
   read -p "Select format ([video][+audio]): " FORMAT
