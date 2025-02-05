@@ -1,0 +1,33 @@
+---
+name: Sync
+on:
+  push:
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+      
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      
+      - name: Extract FQDN from GIT_REMOTE_URL
+        run: echo "GIT_REMOTE_FQDN=$( echo ${{ vars.GIT_REMOTE_URL }} | sed -E 's/^.*@(.*):.*$/\1/')" >> $GITHUB_ENV
+
+      - name: Set up git
+        run: |
+          git remote add downstream ${{ vars.GIT_REMOTE_URL }}
+          echo "$(git remote -v)"
+          ssh-keyscan $GIT_REMOTE_FQDN >> ~/.ssh/known_hosts
+      
+      - name: Push
+        run: |
+          git push downstream --all
+          git push downstream --tags
+          git lfs push downstream --all
+         
