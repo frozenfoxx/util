@@ -40,7 +40,12 @@ download()
 ## Select format
 select_format()
 {
-  yt-dlp --list-formats "${URL}"
+  if ! [[ -z ${USERNAME} ]]; then
+    yt-dlp --username "${USERNAME}" --password "${PASSWORD}" --list-formats "${URL}"
+  else
+    yt-dlp --list-formats "${URL}"
+  fi
+
   read -p "Select format ([video][+audio]): " FORMAT
 }
 
