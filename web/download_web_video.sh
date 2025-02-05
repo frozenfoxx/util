@@ -6,8 +6,8 @@ FORMAT=${FORMAT}
 URL=${URL}
 PREFIX=${PREFIX}
 FILENAME=${FILENAME-%(title)s.%(ext)s}
-USERNAME=${USERNAME}
-PASSWORD=${PASSWORD}
+DWV_USERNAME=${DWV_USERNAME}
+DWV_PASSWORD=${DWV_PASSWORD}
 
 # Functions
 
@@ -30,8 +30,8 @@ check_commands()
 ## Download video
 download()
 {
-  if ! [[ -z ${USERNAME} ]]; then
-    yt-dlp -f "${FORMAT}" --username "${USERNAME}" --password "${PASSWORD}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
+  if ! [[ -z ${DWV_USERNAME} ]]; then
+    yt-dlp -f "${FORMAT}" --username "${DWV_USERNAME}" --password "${DWV_PASSWORD}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
   else
     yt-dlp -f "${FORMAT}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
   fi
@@ -40,8 +40,8 @@ download()
 ## Select format
 select_format()
 {
-  if ! [[ -z ${USERNAME} ]]; then
-    yt-dlp --username "${USERNAME}" --password "${PASSWORD}" --list-formats "${URL}"
+  if ! [[ -z ${DWV_USERNAME} ]]; then
+    yt-dlp --username "${DWV_USERNAME}" --password "${DWV_PASSWORD}" --list-formats "${URL}"
   else
     yt-dlp --list-formats "${URL}"
   fi
@@ -52,12 +52,12 @@ select_format()
 ## Obtain credentials
 get_credentials()
 {
-  if [[ -z ${USERNAME} ]]; then
-    read -p "Username: " USERNAME
+  if [[ -z ${DWV_USERNAME} ]]; then
+    read -p "Username: " DWV_USERNAME
   fi
 
-  if [[ -z ${PASSWORD} ]]; then
-    read -sp "Password: " PASSWORD
+  if [[ -z ${DWV_PASSWORD} ]]; then
+    read -sp "Password: " DWV_PASSWORD
   fi
 }
 
@@ -66,6 +66,8 @@ usage()
 {
   echo "Usage: [Environment Variables] download_web_video.sh [options]"
   echo "  Environment Variables:"
+  echo "    DWV_USERNAME                               set the username of the service used"
+  echo "    DWV_PASSWORD                               set the password of the service used"
   echo "    FILENAME                                   set the format of the filename (default: %(title)s.%(ext)s)"
   echo "    PREFIX                                     set a prefix for the outputted file(s)"
   echo "    URL                                        set URL to download from"
