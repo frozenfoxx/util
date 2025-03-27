@@ -31,9 +31,9 @@ check_commands()
 download()
 {
   if ! [[ -z ${DWV_USERNAME} ]]; then
-    yt-dlp -f "${FORMAT}" --username "${DWV_USERNAME}" --password "${DWV_PASSWORD}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
+    yt-dlp -f "${FORMAT}" --username "${DWV_USERNAME}" --password "${DWV_PASSWORD}" --cookies-from-browser chrome --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
   else
-    yt-dlp -f "${FORMAT}" --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
+    yt-dlp -f "${FORMAT}" --cookies-from-browser chrome --write-thumbnail --write-subs -o "${PREFIX}${FILENAME}" "${URL}"
   fi
 }
 
@@ -41,9 +41,9 @@ download()
 select_format()
 {
   if ! [[ -z ${DWV_USERNAME} ]]; then
-    yt-dlp --username "${DWV_USERNAME}" --password "${DWV_PASSWORD}" --list-formats "${URL}"
+    yt-dlp --username "${DWV_USERNAME}" --password "${DWV_PASSWORD}" --cookies-from-browser chrome --list-formats "${URL}"
   else
-    yt-dlp --list-formats "${URL}"
+    yt-dlp --cookies-from-browser chrome --list-formats "${URL}"
   fi
 
   read -p "Select format ([video][+audio]): " FORMAT
