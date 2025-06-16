@@ -80,7 +80,58 @@ generate_env_file() {
     echo "Successfully generated $ENV_FILE"
 }
 
+## Display usage
+usage()
+{
+  echo "Usage: [Environment Variables] generate_aws_env.sh [options]"
+  echo "  Environment Variables:"
+  echo "    AWS_DEFAULT_REGION                         set the AWS region to search (default: us-west-2)"
+  echo "    ENV                                        set the environment file to use (default: .env)"
+  echo "    SECRETS_YAML                               set the template file to use (default: .env.secrets.yaml)"
+  echo "  Options:"
+  echo "    -e | --env                                 set the environment file to use (overrides environment variable)"
+  echo "    -h | --help                                display this usage information"
+  echo "    -r | --region                              set the AWS region to search (overrides environment variable)"
+  echo "    -t | --template                            template file to use (overrides environment variable)"
+}
+
 # Logic
+
+POSITIONAL_ARGS=()
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -r|--region)
+      AWS_DEFAULT_REGION="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -e|--env)
+      ENV="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -t|--template)
+      SECRETS_YAML="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+    *)
+      POSITIONAL_ARGS+=("$1") # save positional arg
+      shift # past argument
+      ;;
+  esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 check_requirements
 generate_env_file
