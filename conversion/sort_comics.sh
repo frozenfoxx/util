@@ -9,11 +9,14 @@ PATTERN=${PATTERN:-""}
 ASSUME_YES=${ASSUME_YES:-"false"}
 DRY_RUN=${DRY_RUN:-"false"}
  
-## Per-unit defaults; capture group 1 is always the number
+## Per-unit defaults; capture group 1 is always the number.
+## Patterns are matched against the filename with one leading space prepended,
+## so "^.*[^A-Za-z0-9]" requires a separator before the marker while still
+## allowing the marker to sit at the very start of the name.
 CHAPTER_LABEL=${CHAPTER_LABEL:-"Chapter"}
-CHAPTER_PATTERN=${CHAPTER_PATTERN:-'^[Cc][Hh][A-Za-z]*\.?[[:space:][:punct:]]*0*([0-9]+(\.[0-9]+)?).*\.[Cc][Bb][Zz]$'}
+CHAPTER_PATTERN=${CHAPTER_PATTERN:-'^.*[^A-Za-z0-9][Cc][Hh][A-Za-z]*\.?[[:space:][:punct:]]*0*([0-9]+(\.[0-9]+)?).*\.[Cc][Bb][Zz]$'}
 VOLUME_LABEL=${VOLUME_LABEL:-"Volume"}
-VOLUME_PATTERN=${VOLUME_PATTERN:-'^[Vv][A-Za-z]*\.?[[:space:][:punct:]]*0*([0-9]+(\.[0-9]+)?).*\.[Cc][Bb][Zz]$'}
+VOLUME_PATTERN=${VOLUME_PATTERN:-'^.*[^A-Za-z0-9][Vv][A-Za-z]*\.?[[:space:][:punct:]]*0*([0-9]+(\.[0-9]+)?).*\.[Cc][Bb][Zz]$'}
  
 # Functions
  
@@ -45,11 +48,12 @@ collect_files() {
  
   while IFS= read -r file; do
     FILES+=("${file#*|}")
-  done < <(find "${DIRECTORY}" -maxdepth 1 -type f -printf '%f\n' \
+  done < <(find "${DIRECTORY}" -maxdepth 1 -type f -printf ' %f\n' \
     | grep -E "${PATTERN}" \
     | sed -E "s/${PATTERN}/\1|&/" \
     | sort -t'|' -k1,1V \
-    | cut -d'|' -f2-)
+    | cut -d'|' -f2- \
+    | sed -E 's/^ //')
  
   if [[ ${#FILES[@]} -eq 0 ]]; then
     echo "No files matched in ${DIRECTORY}" >&2
@@ -86,7 +90,7 @@ get_destination() {
 get_number() {
   local file="${1}"
  
-  sed -E "s/${PATTERN}/\1/" <<<"${file}"
+  sed -E "s/${PATTERN}/\1/" <<<" ${file}"
 }
  
 ## Create directories and move files into place
@@ -169,16 +173,17 @@ Options:
   -p PREFIX     Prefix for the created directories (default: ${PREFIX})
   -u UNIT       chapter or volume; sets the label and pattern (default: ${UNIT})
   -l LABEL      Override the directory label (default: ${LABEL})
-  -r PATTERN    ERE matched against filenames; group 1 is the number
+  -r PATTERN    ERE matched against filenames; group 1 is the number.
+                Filenames are matched with one leading space prepended
                 (default: ${PATTERN})
   -n            Dry run; show the plan and exit without moving anything
   -y            Assume yes; skip the confirmation prompt
   -h            Show this help and exit
  
 Examples:
-  $(basename "${0}") -p "My Series"                  # Ch. 01 -> "My Series - Chapter 1"
-  $(basename "${0}") -p "My Series" -u volume        # v01    -> "My Series - Volume 1"
-  $(basename "${0}") -p "My Series" -u volume -l Bk  # v01    -> "My Series - Bk 1"
+  $(basename "${0}") -p "My Series"                  # My Series Ch. 01 -> "My Series - Chapter 1"
+  $(basename "${0}") -p "My Series" -u volume        # My Series v01    -> "My Series - Volume 1"
+  $(basename "${0}") -p "My Series" -u volume -l Bk  # My Series v01    -> "My Series - Bk 1"
  
 Environment:
   PREFIX, DIRECTORY, UNIT, LABEL, PATTERN, ASSUME_YES, DRY_RUN override the
