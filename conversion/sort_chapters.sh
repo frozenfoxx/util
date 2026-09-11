@@ -4,7 +4,7 @@
 PREFIX=${PREFIX:-"Prefix"}
 DIRECTORY=${DIRECTORY:-"."}
 ## ERE matched against each filename; capture group 1 is the chapter number
-PATTERN=${PATTERN:-'^Ch\.[[:space:]]+0*([0-9]+(\.[0-9]+)?).*\.cbz$'}
+PATTERN=${PATTERN:-'^[Cc][Hh][A-Za-z]*\.?[[:space:][:punct:]]*0*([0-9]+(\.[0-9]+)?).*\.[Cc][Bb][Zz]$'}
 ASSUME_YES=${ASSUME_YES:-"false"}
 DRY_RUN=${DRY_RUN:-"false"}
  
@@ -37,14 +37,22 @@ collect_files() {
   FILES=()
  
   while IFS= read -r file; do
-    FILES+=("${file}")
+    FILES+=("${file#*|}")
   done < <(find "${DIRECTORY}" -maxdepth 1 -type f -printf '%f\n' \
     | grep -E "${PATTERN}" \
-    | sort -V)
+    | sed -E "s/${PATTERN}/\1|&/" \
+    | sort -t'|' -k1,1V \
+    | cut -d'|' -f2-)
  
   if [[ ${#FILES[@]} -eq 0 ]]; then
-    echo "No matching files found in ${DIRECTORY}"
-    exit 0
+    echo "No files matched in ${DIRECTORY}" >&2
+    echo "Pattern: ${PATTERN}" >&2
+    echo >&2
+    echo "Files present (quoted, so stray whitespace is visible):" >&2
+    find "${DIRECTORY}" -maxdepth 1 -type f -printf '  %f\n' | sed -E 's/^  (.*)$/  "\1"/' >&2
+    echo >&2
+    echo "Adjust the pattern with -r, keeping group 1 on the chapter number." >&2
+    exit 1
   fi
 }
  
@@ -159,3 +167,4 @@ else
   echo "Aborted; nothing moved."
   exit 1
 fi
+ 
