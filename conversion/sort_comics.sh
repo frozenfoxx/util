@@ -3,10 +3,17 @@
 # Variables
 PREFIX=${PREFIX:-"Prefix"}
 DIRECTORY=${DIRECTORY:-"."}
-## ERE matched against each filename; capture group 1 is the chapter number
-PATTERN=${PATTERN:-'^[Cc][Hh][A-Za-z]*\.?[[:space:][:punct:]]*0*([0-9]+(\.[0-9]+)?).*\.[Cc][Bb][Zz]$'}
+UNIT=${UNIT:-"chapter"}
+LABEL=${LABEL:-""}
+PATTERN=${PATTERN:-""}
 ASSUME_YES=${ASSUME_YES:-"false"}
 DRY_RUN=${DRY_RUN:-"false"}
+ 
+## Per-unit defaults; capture group 1 is always the number
+CHAPTER_LABEL=${CHAPTER_LABEL:-"Chapter"}
+CHAPTER_PATTERN=${CHAPTER_PATTERN:-'^[Cc][Hh][A-Za-z]*\.?[[:space:][:punct:]]*0*([0-9]+(\.[0-9]+)?).*\.[Cc][Bb][Zz]$'}
+VOLUME_LABEL=${VOLUME_LABEL:-"Volume"}
+VOLUME_PATTERN=${VOLUME_PATTERN:-'^[Vv][A-Za-z]*\.?[[:space:][:punct:]]*0*([0-9]+(\.[0-9]+)?).*\.[Cc][Bb][Zz]$'}
  
 # Functions
  
@@ -15,7 +22,7 @@ check_requirements() {
   local missing=()
   local cmd
  
-  for cmd in find grep mkdir mv sed sort; do
+  for cmd in cut find grep mkdir mv sed sort; do
     command -v "${cmd}" >/dev/null 2>&1 || missing+=("${cmd}")
   done
  
@@ -30,7 +37,7 @@ check_requirements() {
   fi
 }
  
-## Collect matching CBZ files into the FILES array
+## Collect matching CBZ files into the FILES array, ordered by number
 collect_files() {
   local file
  
@@ -49,9 +56,9 @@ collect_files() {
     echo "Pattern: ${PATTERN}" >&2
     echo >&2
     echo "Files present (quoted, so stray whitespace is visible):" >&2
-    find "${DIRECTORY}" -maxdepth 1 -type f -printf '  %f\n' | sed -E 's/^  (.*)$/  "\1"/' >&2
+    find "${DIRECTORY}" -maxdepth 1 -type f -printf '  "%f"\n' >&2
     echo >&2
-    echo "Adjust the pattern with -r, keeping group 1 on the chapter number." >&2
+    echo "Try a different unit with -u, or a custom pattern with -r (group 1 on the number)." >&2
     exit 1
   fi
 }
@@ -68,18 +75,18 @@ confirm() {
   [[ "${answer}" =~ ^[Yy]([Ee][Ss])?$ ]]
 }
  
-## Extract the chapter number from a filename
-get_chapter() {
-  local file="${1}"
- 
-  sed -E "s/${PATTERN}/\1/" <<<"${file}"
-}
- 
 ## Build the destination directory name for a file
 get_destination() {
   local file="${1}"
  
-  echo "${PREFIX} - Chapter $(get_chapter "${file}")"
+  echo "${PREFIX} - ${LABEL} $(get_number "${file}")"
+}
+ 
+## Extract the chapter or volume number from a filename
+get_number() {
+  local file="${1}"
+ 
+  sed -E "s/${PATTERN}/\1/" <<<"${file}"
 }
  
 ## Create directories and move files into place
@@ -99,18 +106,38 @@ move_files() {
  
 ## Parse command line arguments
 parse_args() {
-  while getopts ":d:p:r:nyh" opt; do
+  while getopts ":d:p:u:l:r:nyh" opt; do
     case "${opt}" in
       d) DIRECTORY="${OPTARG}" ;;
       p) PREFIX="${OPTARG}" ;;
+      u) UNIT="${OPTARG}" ;;
+      l) LABEL="${OPTARG}" ;;
       r) PATTERN="${OPTARG}" ;;
       n) DRY_RUN="true" ;;
       y) ASSUME_YES="true" ;;
-      h) usage; exit 0 ;;
-      :) echo "ERROR: -${OPTARG} requires an argument" >&2; usage; exit 1 ;;
-      \?) echo "ERROR: unknown option: -${OPTARG}" >&2; usage; exit 1 ;;
+      h) resolve_unit; usage; exit 0 ;;
+      :) echo "ERROR: -${OPTARG} requires an argument" >&2; exit 1 ;;
+      \?) echo "ERROR: unknown option: -${OPTARG}" >&2; exit 1 ;;
     esac
   done
+}
+ 
+## Fill in the label and pattern for the selected unit
+resolve_unit() {
+  case "${UNIT,,}" in
+    chapter|ch|c)
+      LABEL="${LABEL:-${CHAPTER_LABEL}}"
+      PATTERN="${PATTERN:-${CHAPTER_PATTERN}}"
+      ;;
+    volume|vol|v)
+      LABEL="${LABEL:-${VOLUME_LABEL}}"
+      PATTERN="${PATTERN:-${VOLUME_PATTERN}}"
+      ;;
+    *)
+      echo "ERROR: unknown unit: ${UNIT} (expected 'chapter' or 'volume')" >&2
+      exit 1
+      ;;
+  esac
 }
  
 ## Show what is about to happen
@@ -119,6 +146,7 @@ show_plan() {
  
   echo "Directory: ${DIRECTORY}"
   echo "Prefix:    ${PREFIX}"
+  echo "Unit:      ${LABEL}"
   echo
   echo "The following moves will be made:"
  
@@ -132,26 +160,36 @@ show_plan() {
 ## Print usage information
 usage() {
   cat <<USAGE
-Usage: $(basename "${0}") [-d DIRECTORY] [-p PREFIX] [-r PATTERN] [-n] [-y] [-h]
+Usage: $(basename "${0}") [-d DIRECTORY] [-p PREFIX] [-u UNIT] [-l LABEL] [-r PATTERN] [-n] [-y] [-h]
  
-Sorts "Ch. <number> ... .cbz" files into "PREFIX - Chapter <number>" directories.
+Sorts numbered CBZ files into "PREFIX - LABEL <number>" directories.
  
 Options:
   -d DIRECTORY  Directory to operate on (default: ${DIRECTORY})
   -p PREFIX     Prefix for the created directories (default: ${PREFIX})
-  -r PATTERN    ERE matched against filenames; group 1 is the chapter number
+  -u UNIT       chapter or volume; sets the label and pattern (default: ${UNIT})
+  -l LABEL      Override the directory label (default: ${LABEL})
+  -r PATTERN    ERE matched against filenames; group 1 is the number
                 (default: ${PATTERN})
   -n            Dry run; show the plan and exit without moving anything
   -y            Assume yes; skip the confirmation prompt
   -h            Show this help and exit
  
+Examples:
+  $(basename "${0}") -p "My Series"                  # Ch. 01 -> "My Series - Chapter 1"
+  $(basename "${0}") -p "My Series" -u volume        # v01    -> "My Series - Volume 1"
+  $(basename "${0}") -p "My Series" -u volume -l Bk  # v01    -> "My Series - Bk 1"
+ 
 Environment:
-  PREFIX, DIRECTORY, PATTERN, ASSUME_YES, DRY_RUN override the defaults above.
+  PREFIX, DIRECTORY, UNIT, LABEL, PATTERN, ASSUME_YES, DRY_RUN override the
+  defaults above; CHAPTER_LABEL, CHAPTER_PATTERN, VOLUME_LABEL and
+  VOLUME_PATTERN override the per-unit presets.
 USAGE
 }
  
 # Logic
 parse_args "${@}"
+resolve_unit
 check_requirements
 collect_files
 show_plan
@@ -167,4 +205,3 @@ else
   echo "Aborted; nothing moved."
   exit 1
 fi
- 
