@@ -1,0 +1,28 @@
+FREETAR PRINT FIX - one column, portrait (bookmarklet)
+
+Open a freetar chord page, click this bookmark, then print or Save as PDF.
+No nav bar, no "View on" column, Capo under Tuning, no buttons, no blue bars,
+black-on-white chord diagrams in one tight row
+
+PRINT TIP: Portrait, Letter, 100% scale. Turn on "Background graphics" so the black finger dots print.
+
+SETUP: make a new bookmark and paste the long line below into its URL field.
+
+javascript:(()%3D%3E%7B%0Aconst%20cb%3Ddocument.getElementById('checkbox_view_chords')%3B%0Aif(cb%26%26!cb.checked)cb.click()%3B%0Aconst%20row%3Ddocument.querySelector('.container%20%3E%20.row')%3B%0Aif(!row)return%3B%0Aconst%20kids%3D%5B...row.children%5D%3B%0Aconst%20tuning%3Dkids.find(k%3D%3E%2F%5E%5Cs*Tuning%3A%2F.test(k.innerText))%3B%0Aconst%20capo%3Dkids.find(k%3D%3E%2F%5E%5Cs*Capo%3A%2F.test(k.innerText))%3B%0Aif(tuning%26%26capo)tuning.after(capo)%3B%0Akids.filter(k%3D%3E%2F%5E%5Cs*(Difficulty%7CTuning%7CCapo)%3A%2F.test(k.innerText)).forEach(k%3D%3E%7Bk.className%3D'col-12'%3Bk.querySelectorAll('br').forEach(b%3D%3Eb.remove())%7D)%3B%0Alet%20s%3Ddocument.getElementById('print-fix')%3B%0Aif(!s)%7Bs%3Ddocument.createElement('style')%3Bs.id%3D'print-fix'%3Bdocument.head.appendChild(s)%7D%0As.textContent%3D'nav%2C.d-print-none%2C.container%20%3E%20.row%20%3E%20div%3Anth-child(2)%7Bdisplay%3Anone!important%7D%40media%20print%7Bhtml%2Cbody%7Bbackground%3A%23fff!important%3Bcolor%3A%23000!important%7D.container%7Bmax-width%3Anone!important%3Bwidth%3Aauto!important%3Bpadding%3A0!important%7D.row%7Bdisplay%3Ablock!important%3Bmargin%3A0!important%7D.row%3E*%7Bwidth%3Aauto!important%3Bmax-width%3Anone!important%3Bpadding%3A0!important%3Bmargin%3A0!important%7D.tab%2C.tab%20*%2C.row%2C.row%20*%2Ch5%2Ch5%20*%7Bcolor%3A%23000!important%7Da%7Btext-decoration%3Anone%7Dhr%7Bborder-color%3A%23000!important%3Bopacity%3A1!important%7D%23chordVisuals%20table%2C%23chordVisuals%20th%2C%23chordVisuals%20td%7Bbackground%3A%23fff!important%3Bbox-shadow%3Anone!important%3Bcolor%3A%23000!important%7D%23chordVisuals%20th%7Bborder-bottom%3A2px%20solid%20%23000!important%7D%23chordVisuals%20td%3Anot(%3Afirst-child)%7Bbackground%3A%23fff%20linear-gradient(%23000%2C%23000)%20no-repeat%20center%2F1px%20100%25!important%7D%23chordVisuals%2C%23chordVisuals%20*%7B-webkit-print-color-adjust%3Aexact%3Bprint-color-adjust%3Aexact%7Dhr%7Bdisplay%3Anone!important%7D%23chordVisuals%7Bmargin%3A6px%200%2014px!important%7D%23chordVisuals%20.d-grid%7Bgrid-template-columns%3Arepeat(auto-fill%2C100px)!important%3Bgrid-gap%3A0%2028px!important%3Bjustify-content%3Astart!important%7D%7D'%3B%0A%7D)()%3B
+
+READABLE SOURCE:
+
+(()=>{
+const cb=document.getElementById('checkbox_view_chords');
+if(cb&&!cb.checked)cb.click();
+const row=document.querySelector('.container > .row');
+if(!row)return;
+const kids=[...row.children];
+const tuning=kids.find(k=>/^\s*Tuning:/.test(k.innerText));
+const capo=kids.find(k=>/^\s*Capo:/.test(k.innerText));
+if(tuning&&capo)tuning.after(capo);
+kids.filter(k=>/^\s*(Difficulty|Tuning|Capo):/.test(k.innerText)).forEach(k=>{k.className='col-12';k.querySelectorAll('br').forEach(b=>b.remove())});
+let s=document.getElementById('print-fix');
+if(!s){s=document.createElement('style');s.id='print-fix';document.head.appendChild(s)}
+s.textContent='nav,.d-print-none,.container > .row > div:nth-child(2){display:none!important}@media print{html,body{background:#fff!important;color:#000!important}.container{max-width:none!important;width:auto!important;padding:0!important}.row{display:block!important;margin:0!important}.row>*{width:auto!important;max-width:none!important;padding:0!important;margin:0!important}.tab,.tab *,.row,.row *,h5,h5 *{color:#000!important}a{text-decoration:none}hr{border-color:#000!important;opacity:1!important}#chordVisuals table,#chordVisuals th,#chordVisuals td{background:#fff!important;box-shadow:none!important;color:#000!important}#chordVisuals th{border-bottom:2px solid #000!important}#chordVisuals td:not(:first-child){background:#fff linear-gradient(#000,#000) no-repeat center/1px 100%!important}#chordVisuals,#chordVisuals *{-webkit-print-color-adjust:exact;print-color-adjust:exact}hr{display:none!important}#chordVisuals{margin:6px 0 14px!important}#chordVisuals .d-grid{grid-template-columns:repeat(auto-fill,100px)!important;grid-gap:0 28px!important;justify-content:start!important}}';
+})();
